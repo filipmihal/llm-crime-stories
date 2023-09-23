@@ -1,7 +1,7 @@
 from random import choice
 
-from ..location import Location
-from .generator import Generator
+from environment.location import Location
+from environment.generators.generator import Generator
 
 
 class GridGenerator(Generator):

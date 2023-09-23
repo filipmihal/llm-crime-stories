@@ -1,9 +1,8 @@
-"""
-Location class is a unit of space in the dungeon game. It serves as a descriptor for the world.
-"""
-
-
 class Location:
+    """
+    Location class is a unit of space in the dungeon game. It serves as a descriptor for the world.
+    """
+    
     def __init__(self):
         self.description = None
         self.south = None

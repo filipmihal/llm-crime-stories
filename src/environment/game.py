@@ -1,16 +1,16 @@
-"""
-Game contains the main game logic and the game state.
-"""
-
 from environment.location import Location
 
 
 class Game:
+    """
+    Game contains the main game logic and the game state.
+    """
+    
     def __init__(self, current_location: Location):
         self.current_location = current_location
         self.previous_location = None
 
-    def move(self, direction) -> bool:
+    def move(self, direction: str) -> bool:
         if direction == "north":
             if self.current_location.north is None:
                 return False
