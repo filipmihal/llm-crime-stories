@@ -4,7 +4,7 @@ Generates a 2D grid-like environment with Location objects as units of space.
 
 from abc import abstractmethod
 
-from ..location import Location
+from environment.location import Location
 
 
 class Generator:
