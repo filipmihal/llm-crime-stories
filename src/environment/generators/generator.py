@@ -1,16 +1,22 @@
 from abc import ABC, abstractmethod
+from typing import List
 
-from environment.location import Location
+from environment.types import Direction, Location, Position
 
 
-class Generator(ABC):
+class GridGenerator(ABC):
     """
     Generates a 2D grid-like environment with Location objects as units of space.
     """
     
-    def __init__(self, number_of_locations: int):
-        self._number_of_locations = number_of_locations
-
+    @staticmethod
+    def is_in_bounds(current: Position, n_rows: int, n_cols: int) -> bool:
+        return 0 <= current.x < n_rows and 0 <= current.y < n_cols
+    
+    @property
+    def relative_directions(self) -> List[Position]:
+        return [direction.value for direction in Direction]
+    
     @abstractmethod
-    def generate(self) -> Location:
+    def generate(self, size: int, debug: bool = False) -> Location:
         pass
