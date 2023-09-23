@@ -2,6 +2,7 @@
 Location class is a unit of space in the dungeon game. It serves as a descriptor for the world.
 """
 
+
 class Location:
     def __init__(self):
         self.description = None
@@ -9,7 +10,6 @@ class Location:
         self.north = None
         self.east = None
         self.west = None
-    
 
     @staticmethod
     def connect(location1, location2, direction):
@@ -27,6 +27,3 @@ class Location:
             location2.east = location1
         else:
             raise ValueError("Invalid direction")
-    
-        
-        
