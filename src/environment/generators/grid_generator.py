@@ -14,12 +14,9 @@ class GridGenerator(Generator):
         self.generate()
 
     def generate(self) -> Location:
-        self.field = []
         rows = 2 * self.number_of_locations + 1
         columns = 2 * self.number_of_locations + 1
-
-        for i in range(rows):
-            self.field.append([None] * columns)
+        self.field = [[None] * columns for _ in range(rows)]
 
         middle = self.number_of_locations
         self.field[middle][middle] = Location()
@@ -31,7 +28,7 @@ class GridGenerator(Generator):
                 for direction in relative_directions
             ]
         )
-        for i in range(self.number_of_locations):
+        for _ in range(self.number_of_locations):
             new_locations = Location()
             new_position = choice(potential_locations)
             potential_locations.remove(new_position)
