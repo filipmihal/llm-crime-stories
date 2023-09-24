@@ -1,4 +1,5 @@
 from environment.types import Grid, Location
+from itertools import product
 from typing import Tuple
 
 class GridVisualizer:
@@ -9,14 +10,14 @@ class GridVisualizer:
     @staticmethod
     def get_bounds(grid: Grid, size: int) -> Tuple[int, int, int, int]:
         top, left, right, bottom = float('inf'), float('inf'), -1, -1
+        rows = columns = 2 * size + 1
 
-        for i in range(2 * size + 1):
-            for j in range(2 * size + 1):
-                if grid[i][j] is not None:
-                    top = min(top, i)
-                    left = min(left, j)
-                    right = max(right, j)
-                    bottom = max(bottom, i)
+        for i, j in product(range(rows), range(columns)):
+            if grid[i][j] is not None:
+                top = min(top, i)
+                left = min(left, j)
+                right = max(right, j)
+                bottom = max(bottom, i)
 
         return top, left, right, bottom
     
