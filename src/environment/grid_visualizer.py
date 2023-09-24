@@ -7,7 +7,7 @@ class GridVisualizer:
     """
 
     @staticmethod
-    def get_bounds(grid: Grid, size: int) -> (int, int, int, int):
+    def get_bounds(grid: Grid, size: int) -> Tuple[int, int, int, int]:
         top, left, right, bottom = float('inf'), float('inf'), -1, -1
 
         for i in range(2 * size + 1):
