@@ -2,19 +2,19 @@ from enum import Enum
 from typing import Dict, List, Optional
 
 class Position:
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         self._x = x
         self._y = y
         
     @property
-    def x(self):
+    def x(self) -> int:
         return self._x
     
     @property
-    def y(self):
+    def y(self) -> int:
         return self._y
     
-    def __add__(self, other):
+    def __add__(self, other) -> 'Position':
         if isinstance(other, int):
             return Position(self._x + other, self._y + other)
         
@@ -23,7 +23,7 @@ class Position:
         
         raise TypeError("Unsupported operand type")
         
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, Position):
             return self._x == other.x and self._y == other._y
         
