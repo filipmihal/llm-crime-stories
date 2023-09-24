@@ -1,6 +1,6 @@
-from environment.grid_visualizer import GridVisualizer
-from environment.generators.random_grid_generator import RandomGridGenerator
 from environment.game import Game
+from environment.generators.random_grid_generator import RandomGridGenerator
+from environment.grid_visualizer import GridVisualizer
 from environment.types import Direction
 
 # Generate a dungeon of the given size.
@@ -12,7 +12,7 @@ GridVisualizer.visualize(grid, start_location, DUNGEON_SIZE)
 
 game = Game(start_location)
 for c in range(3):
-    print('------------------')
+    print("------------------")
     if c % 2 == 0:
         game.move(Direction.NORTH.value)
     else:
