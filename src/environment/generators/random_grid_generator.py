@@ -18,7 +18,7 @@ class RandomGridGenerator(GridGenerator):
             potential_locations.remove(position)
             
             new_location = Location()
-            field[position.x][position.y] = new_location
+            field[position.y][position.x] = new_location
 
             for direction in self.relative_directions:
                 new_position = position + direction
@@ -26,12 +26,12 @@ class RandomGridGenerator(GridGenerator):
                 if not GridGenerator.is_in_bounds(new_position, rows, columns):
                     continue
                 
-                if not field[new_position.x][new_position.y]:
+                if not field[new_position.y][new_position.x]:
                     potential_locations.add(new_position)
                 else:
                     Location.connect(
                         new_location,
-                        field[new_position.x][new_position.y],
+                        field[new_position.y][new_position.x],
                         direction,
                     )
         
