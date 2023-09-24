@@ -18,5 +18,5 @@ class GridGenerator(ABC):
         return [direction.value for direction in Direction]
     
     @abstractmethod
-    def generate(self, size: int, debug: bool = False) -> Location:
+    def generate(self, size: int, generator_seed: int, debug: bool = False) -> Location:
         pass

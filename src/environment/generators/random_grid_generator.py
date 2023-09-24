@@ -1,11 +1,12 @@
-from random import choice
+from random import choice, seed
 from typing import Tuple, Union
 
 from environment.generators.generator import GridGenerator
 from environment.types import Grid, Location
 
 class RandomGridGenerator(GridGenerator):
-    def generate(self, size: int, debug: bool = False) -> Union[Tuple[Grid, Location], Location]:
+    def generate(self, size: int, generator_seed: int = 64, debug: bool = False) -> Union[Tuple[Grid, Location], Location]:
+        seed(generator_seed)
         rows = columns = 2 * size + 1
         field = [[None] * columns for _ in range(rows)]
 
