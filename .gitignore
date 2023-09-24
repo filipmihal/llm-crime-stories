@@ -1,1 +1,5 @@
 **/.venv
+**/.venv-test
+
+**/*.egg-info
+**/__pycache__
