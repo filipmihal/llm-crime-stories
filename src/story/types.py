@@ -10,9 +10,14 @@ class StoryPayload:
     """
     Describes the general atmosphere of a story.
     """
-    atmosphere: List[str]
+    atmosphere: Optional[List[str]] = None
     
     """
     When something goes wrong e.g. player tries to move in a forbidden direction, this contains the information.
     """
-    error: Optional[str]
+    error: Optional[str] = None
+    
+    """
+    "Just print this".
+    """
+    text: Optional[str] = None

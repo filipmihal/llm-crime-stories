@@ -21,7 +21,7 @@ class LlamaStoryteller(Storyteller):
     Llama-based guiding entity strategy.
     """
     
-    def __init__(self):
+    def __init__(self) -> None:
         self._question_prompt = f"""
             Q: Describe a new location's atmosphere.
         """
@@ -55,4 +55,4 @@ class SystemStoryteller(Storyteller):
     """
     
     def tell(self, story_payload: StoryPayload) -> str:
-        return story_payload.error
+        return story_payload.error or story_payload.text

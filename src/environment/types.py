@@ -66,6 +66,10 @@ class Location:
         self._neighbours = {direction.value: None for direction in Direction}
 
     @property
+    def description(self) -> str:
+        return self._description
+
+    @property
     def neighbours(self) -> Dict[Position, "Location"]:
         return self._neighbours
 
