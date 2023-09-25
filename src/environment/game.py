@@ -15,7 +15,7 @@ class Game:
 
     def __init__(self, generator: GridGenerator, atmosphere: List[str]) -> None:
         start_location, grid = generator.generate()
-        self._game_state = GameState(start_location, grid, generator.dungeon_size)
+        self._game_state = GameState(atmosphere, start_location, grid, generator.dungeon_size)
         self._storytelling_context = StorytellingContext(atmosphere)
     
     def play(self, instruction_text: str, visualize: bool = True) -> None:
