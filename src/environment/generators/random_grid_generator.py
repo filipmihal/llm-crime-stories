@@ -6,19 +6,21 @@ from environment.types import Grid, Location
 
 
 class RandomGridGenerator(GridGenerator):
-    def generate(
-        self, size: int, generator_seed: int = 64, debug: bool = False
-    ) -> Union[Tuple[Grid, Location], Location]:
-        seed(generator_seed)
-        rows = columns = 2 * size + 1
+
+    def __init__(self, dungeon_size: int, seed: int) -> None:
+        super().__init__(dungeon_size, seed)
+
+    def generate(self) -> Tuple[Grid, Location]:
+        seed(self._seed)
+        rows = columns = 2 * self._dungeon_size + 1
         field = [[None] * columns for _ in range(rows)]
 
-        middle = size
+        middle = self._dungeon_size
         field[middle][middle] = Location()
         potential_locations = set(
             [direction + middle for direction in self.relative_directions]
         )
-        for _ in range(size):
+        for _ in range(self._dungeon_size):
             position = choice(list(potential_locations))
             potential_locations.remove(position)
 
@@ -40,4 +42,4 @@ class RandomGridGenerator(GridGenerator):
                         direction,
                     )
 
-        return field[middle][middle], field if debug else field[middle][middle]
+        return field[middle][middle], field

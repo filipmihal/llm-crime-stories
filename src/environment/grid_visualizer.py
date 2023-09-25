@@ -1,7 +1,8 @@
 from itertools import product
 from typing import Tuple
 
-from environment.types import Grid, Location
+from environment.types import Grid
+from environment.game_state import GameState
 
 
 class GridVisualizer:
@@ -24,8 +25,10 @@ class GridVisualizer:
         return top, left, right, bottom
 
     @staticmethod
-    def visualize(grid: Grid, start_location: Location, size: int) -> None:
-        top, left, right, bottom = GridVisualizer.get_bounds(grid, size)
+    def visualize(game_state: GameState) -> None:
+        start_location = game_state.current_location
+        grid = game_state.grid
+        top, left, right, bottom = GridVisualizer.get_bounds(grid, game_state.dungeon_size)
 
         for i in range(top, bottom + 1):
             for j in range(left, right + 1):
