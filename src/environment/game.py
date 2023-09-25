@@ -26,7 +26,7 @@ class Game:
         for instruction in instructions:
             action = PlayerActionParser.parse(instruction)
             if not action:
-                self._storytelling_context.describe("system", StoryPayload(error="Invalid instruction: " + instruction))
+                print(self._storytelling_context.describe("system", StoryPayload(error="Invalid instruction: " + instruction)))
                 continue
             
             action.act(self._game_state, self._storytelling_context)

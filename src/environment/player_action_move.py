@@ -10,11 +10,14 @@ class PlayerActionMove(PlayerAction):
 
     def act(self, game_state: GameState, storytelling_context: StorytellingContext) -> None:
         if game_state.current_location.neighbours[self._direction] is None:
-            return storytelling_context.describe("system", StoryPayload(error="Not valid move."))
+            print(storytelling_context.describe("system", StoryPayload(error="Not valid move.")))
+            return
 
         game_state.current_location = game_state.current_location.neighbours[self._direction]
         if game_state.current_location.description:
-            return storytelling_context.describe("system", StoryPayload(text=game_state.current_location.description))
+            print(storytelling_context.describe("system", StoryPayload(text=game_state.current_location.description)))
+            return
         
         location_description = storytelling_context.describe("llama", StoryPayload(atmosphere=game_state.atmosphere))
         game_state.current_location.description = location_description
+        print(location_description)
