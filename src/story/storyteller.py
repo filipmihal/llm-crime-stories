@@ -7,6 +7,7 @@ from story.types import StoryPayload
 class Storyteller(ABC):
     """
     Describe an entity that will guide a player throughout a story.
+    Acts as a strategy in storytelling.
     """
     
     @abstractmethod
@@ -17,7 +18,7 @@ class Storyteller(ABC):
 
 class LlamaStoryteller(Storyteller):
     """
-    Llama-based guiding entity.
+    Llama-based guiding entity strategy.
     """
     
     def __init__(self):
@@ -46,10 +47,11 @@ class LlamaStoryteller(Storyteller):
         story = re.sub(r"\([^)]*\)", "", answer).strip()
 
         return story
-        
+
 class SystemStoryteller(Storyteller):
     """
-    Acts as a dummy storyteller that just returns the system prompts e.g. errors like when wrong direction was specified.
+    Acts as a dummy storyteller strategy that just returns the system prompts.
+    For example, errors like when wrong direction was specified.
     """
     
     def tell(self, story_payload: StoryPayload) -> str:
