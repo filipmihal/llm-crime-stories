@@ -69,6 +69,10 @@ class Location:
     def description(self) -> str:
         return self._description
 
+    @property.setter
+    def description(self, new_description) -> None:
+        self._description = new_description
+
     @property
     def neighbours(self) -> Dict[Position, "Location"]:
         return self._neighbours
