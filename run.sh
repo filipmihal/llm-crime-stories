@@ -1,30 +1,23 @@
-#!bin/bash
+#!/bin/bash
 
 set -e
 
-# Package.
-if [ -d ".venv" ]; then
-    echo "Removing old venv"
-    rm -rf .venv
+if conda env list | grep -q venv; then
+    echo "Removing old main environment"
+    conda env remove -n venv -y
 fi
 
-python3 -m venv .venv
-.venv/bin/pip install --upgrade pip setuptools
-.venv/bin/pip install -e .
-.venv/bin/pip install black isort autoflake
+conda create -n venv -y python=3.10
 
-# Format.
-.venv/bin/black src --target-version py310
-.venv/bin/autoflake --in-place --remove-all-unused-imports --recursive src
-.venv/bin/isort src --profile black
+VENV_PATH=$(conda info --envs | grep venv | sed 's/ \+/ /g' | cut -d " " -f2)
 
-# Tests.
-if [ -d ".venv-test" ]; then
-    echo "Removing old test venv"
-    rm -rf .venv-test
-fi
+conda install --prefix $VENV_PATH pip setuptools -y
+$VENV_PATH/bin/pip install -e .
 
-python3 -m venv .venv-test
-.venv-test/bin/pip install -U setuptools pip wheel
-.venv-test/bin/pip install -e '.[tests]'
-.venv-test/bin/pytest tests
+# Install additional packages.
+$VENV_PATH/bin/pip install black black[jupyter] isort autoflake
+
+# Format code.
+$VENV_PATH/bin/black src --target-version py310
+$VENV_PATH/bin/autoflake --in-place --remove-all-unused-imports --recursive src
+$VENV_PATH/bin/isort src --profile black
