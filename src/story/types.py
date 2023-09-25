@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 @dataclass
-class StoryContext:
+class StoryPayload:
     """
     Represents a container for a context needed to generate the description of a location.
     """

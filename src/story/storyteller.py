@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 import re
 
 from llm.llama import Llama
-from story.types import StoryContext
+from story.types import StoryPayload
 
 class Storyteller(ABC):
     """
@@ -10,7 +10,7 @@ class Storyteller(ABC):
     """
     
     @abstractmethod
-    def tell(self, context: StoryContext) -> str:
+    def tell(self, story_payload: StoryPayload) -> str:
         """
         Returns a few light artistic sentences describing an atmosphere in a location.
         """
@@ -32,10 +32,10 @@ class LlamaStoryteller(Storyteller):
         """
         
         self._llama = Llama()
-        
-    def tell(self, context: StoryContext) -> str:
+    
+    def tell(self, story_payload: StoryPayload) -> str:
         # Construct prompt.
-        prompt = self._system_prompt(context.atmosphere) + " " + self._question_prompt + " A:"
+        prompt = self._system_prompt(story_payload.atmosphere) + " " + self._question_prompt + " A:"
         
         # Run inference pipeline.
         res = self._llama.generate_text(prompt)
@@ -52,5 +52,5 @@ class SystemStoryteller(Storyteller):
     Acts as a dummy storyteller that just returns the system prompts e.g. errors like when wrong direction was specified.
     """
     
-    def tell(self, context: StoryContext) -> str:
-        return context.error
+    def tell(self, story_payload: StoryPayload) -> str:
+        return story_payload.error
