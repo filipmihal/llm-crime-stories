@@ -1,10 +1,11 @@
+import os
 import torch
 import transformers
 from torch import bfloat16, cuda
 from transformers import StoppingCriteria, StoppingCriteriaList
 
 class Llama:
-    def __init__(self, hf_auth: str):
+    def __init__(self):
         model_id = "meta-llama/Llama-2-7b-chat-hf"
 
         device = f"cuda:{cuda.current_device()}" if cuda.is_available() else "cpu"
@@ -19,6 +20,7 @@ class Llama:
         )
 
         # begin initializing HF items, you need an access token
+        hf_auth = os.environ["HF_AUTH"]
         model_config = transformers.AutoConfig.from_pretrained(model_id, use_auth_token=hf_auth)
 
         model = transformers.AutoModelForCausalLM.from_pretrained(
