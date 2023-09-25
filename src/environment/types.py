@@ -69,7 +69,7 @@ class Location:
     def description(self) -> str:
         return self._description
 
-    @property.setter
+    @description.setter
     def description(self, new_description) -> None:
         self._description = new_description
 
