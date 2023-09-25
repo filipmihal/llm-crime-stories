@@ -1,10 +1,10 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 import re
 
 from llm.llama import Llama
-from llm.types import StoryContext
+from story.types import StoryContext
 
-class Storyteller:
+class Storyteller(ABC):
     """
     Describe an entity that will guide a player throughout a story.
     """
@@ -16,6 +16,10 @@ class Storyteller:
         """
 
 class LlamaStoryteller(Storyteller):
+    """
+    Llama-based guiding entity.
+    """
+    
     def __init__(self):
         self._question_prompt = f"""
             Q: Describe a new location's atmosphere.
