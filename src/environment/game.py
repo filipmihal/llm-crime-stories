@@ -14,7 +14,8 @@ class Game:
         self._game_state = GameState(start_location, grid, generator.dungeon_size)
     
     def play(self, instruction_text: str, visualize: bool = True) -> None:
-        GridVisualizer.visualize(self._game_state)
+        if visualize:
+            GridVisualizer.visualize(self._game_state)
         instructions = PlayerActionParser.parse_raw(instruction_text)
         for instruction in instructions:
             action = PlayerActionParser.parse(instruction)
