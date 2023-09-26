@@ -70,5 +70,5 @@ class Llama:
         )
         
     @property
-    def generate_text(self):
+    def pipeline(self):
         return self._generate_text
