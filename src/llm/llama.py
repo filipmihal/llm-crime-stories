@@ -65,7 +65,7 @@ class Llama:
             # we pass model parameters here too
             stopping_criteria=stopping_criteria,  # without this model rambles during chat
             temperature=0.2,  # 'randomness' of outputs, 0.0 is the min and 1.0 the max
-            max_new_tokens=256,  # max number of tokens to generate in the output
+            max_new_tokens=4096,  # max number of tokens to generate in the output
             repetition_penalty=1.2,  # without this output begins repeating
         )
         
