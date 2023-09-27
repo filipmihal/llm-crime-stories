@@ -11,10 +11,10 @@ class SuspectYamlOutputParser(BaseOutputParser):
         """Parse the output of an LLM call."""
         print(text)
         match = (
-            re.search(r"- [sS]uspects:[\s\S]*", text)
-            or re.search(r"[sS]uspects:[\s\S]*", text)
-            or re.search(r"- [sS]uspects:[\s\S]*\n", text)
-            or re.search(r"[sS]uspects:[\s\S]*\n", text)
+            re.search(r"- [sS]uspect:[\s\S]*", text)
+            or re.search(r"[sS]uspect:[\s\S]*", text)
+            or re.search(r"- [sS]uspect:[\s\S]*\n", text)
+            or re.search(r"[sS]uspect:[\s\S]*\n", text)
         )
         group = match.group(0)
 
