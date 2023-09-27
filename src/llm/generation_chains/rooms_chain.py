@@ -1,4 +1,5 @@
 from collections import deque
+import json
 from langchain.prompts import PromptTemplate
 from langchain.schema import BaseOutputParser
 from marshmallow import ValidationError
@@ -83,8 +84,8 @@ class RoomsChain:
     def create(self, theme, victim, suspects):
         # generate description for the starting room, assumes square rooms layout
         middle_row, middle_col = self._rows // 2, self._columns // 2
-        start_story = self.create(self._victim_prompt, theme, victim)
-        print(start_story)
+        print(victim)
+        start_story = self.create(self._victim_prompt, theme, json.dumps(victim))
         start_story.update({"row": middle_row, "col": middle_col})
 
         # contains final description of rooms
@@ -102,7 +103,7 @@ class RoomsChain:
             row, col = current_room
 
             current_room_story = self.create(
-                self._suspect_prompt, theme, not_selected_suspects.popleft()
+                self._suspect_prompt, theme, json.dumps(not_selected_suspects.popleft())
             )
             current_room_story.update({"row": row, "j": col})
             rooms_data.append(current_room_story)
