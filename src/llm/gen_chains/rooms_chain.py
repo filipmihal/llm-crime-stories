@@ -50,11 +50,11 @@ class RoomsChain:
         )
 
     def create(self, theme, victim, suspects):
-        # firstly, generate description for the starting room, assumes square rooms layout
+        # generate description for the starting room, assumes square rooms layout
         middle_row, middle_col = self._rows // 2, self._columns // 2
         start_story = self.generate_room(self._victim_prompt, theme, victim)
-        # start_story.update({"row": middle_row, "col": middle_col})
-        start_story += "row:" + str(middle_row) + ", col:" + str(middle_col)
+        start_story.update({"row": middle_row, "col": middle_col})
+        # start_story += "row:" + str(middle_row) + ", col:" + str(middle_col)
 
         # contains final description of rooms
         rooms_data, suspects_positions = [start_story], []
@@ -73,8 +73,8 @@ class RoomsChain:
             current_room_story = self.generate_room(
                 self._suspect_prompt, theme, not_selected_suspects.popleft()
             )
-            #current_room_story.update({"row": row, "j": col})
-            current_room_story += "row:" + str(row) + ", col:" + str(col)
+            current_room_story.update({"row": row, "j": col})
+            # current_room_story += "row:" + str(row) + ", col:" + str(col)
             rooms_data.append(current_room_story)
 
             generated.add((row, col))
