@@ -11,4 +11,4 @@ class StorySchema(Schema):
     victim = fields.Nested(VictimSchema)
     suspects = fields.List(fields.Nested(SuspectSchema))
     rooms = fields.List(fields.Nested(RoomSchema))
-    suspects_positions = fields.List(fields.Tuple(fields.Integer(), fields.Integer()))
+    suspects_positions = fields.List(fields.Tuple((fields.Integer(), fields.Integer())))
