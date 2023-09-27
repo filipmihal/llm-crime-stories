@@ -44,18 +44,15 @@ class LlmStoryGenerator:
         
         self._rooms_layout = rooms_layout
     
-    def create_new_story(self, theme: str, dummy: bool = False) -> Story:
+    def create_new_story(self, theme: str, number_of_suspects: int, dummy: bool = False) -> Story:
         if dummy:
             with open("./llm-dungeon-adventures/data/dummy.json", 'r') as f:
                 return json.load(f)
 
 
         victim = VictimChain(self._llm).create(theme)
-        print(victim)
-        suspects = SuspectChain(self._llm).create(theme, victim)
-        print(suspects)
+        suspects = SuspectChain(self._llm).create(number_of_suspects, theme, victim)
         rooms, suspects_positions = RoomsChain(self._llm, self._rooms_layout).create(theme, victim, suspects)
-
     
         return {
             "theme": theme,
