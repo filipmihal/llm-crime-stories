@@ -1,4 +1,5 @@
 from collections import deque
+import json
 from langchain.prompts import PromptTemplate
 
 from llm.gen_chains.json_output_parser import JsonOutputParser
@@ -11,16 +12,18 @@ class RoomsChain:
         self._rooms_layout = rooms_layout
         self._rows, self._columns = len(rooms_layout), len(rooms_layout[0])
 
-        self._json_schema = {
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "title": "Generated schema for Root",
-            "type": "object",
-            "properties": {
-                "room_name": {"type": "string"},
-                "description": {"type": "string"},
-            },
-            "required": ["room_name", "description"],
-        }
+        self._json_schema = json.dump(
+            {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "title": "Generated schema for Root",
+                "type": "object",
+                "properties": {
+                    "room_name": {"type": "string"},
+                    "description": {"type": "string"},
+                },
+                "required": ["room_name", "description"],
+            }
+        )
 
         self._suspect_prompt = PromptTemplate.from_template(
             """
