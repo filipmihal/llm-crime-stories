@@ -10,7 +10,7 @@ class RandomGridGenerator(GridGenerator):
     def __init__(self, dungeon_size: int, seed: int) -> None:
         super().__init__(dungeon_size, seed)
 
-    def generate(self) -> Tuple[Grid, Location]:
+    def generate(self) -> Tuple[Location, Grid]:
         seed(self._seed)
         rows = columns = 2 * self._dungeon_size + 1
         field = [[None] * columns for _ in range(rows)]
