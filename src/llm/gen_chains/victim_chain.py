@@ -1,7 +1,6 @@
-import json
 from langchain.prompts import PromptTemplate
 
-from llm.gen_chains.json_output_parser import JsonOutputParser
+from llm.gen_chains.yaml_output_parser import YamlOutputParser
 
 
 class VictimChain:
@@ -9,13 +8,12 @@ class VictimChain:
         self._prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
-            You are a crime storyteller. The theme of the story is: {{theme}}. No pre-amble.
+            You are a crime storyteller. Always output your answer in YAML. No pre-amble.
             <<SYS>>
 
-            Describe a victim's name, age, occupation, murder weapon and death description. Output it as YAML.
-                
-            For example, if you describe a victim like Alicia Williams, 25 years, nurse, killed by a hunter's knife, stabbed 36 times in the guts.
-            Then your desired output is:
+            The theme of the story is: {{theme}}. Describe a victim's name, age, occupation, murder weapon and death description.
+            
+            For example:
             ```
             victim:
                 name: "Alicia Williams"
@@ -27,7 +25,7 @@ class VictimChain:
             """
         )
 
-        self._chain = self._prompt | llm | JsonOutputParser()
+        self._chain = self._prompt | llm | YamlOutputParser()
 
     def create(self, theme):
         return self._chain.invoke({"theme": theme})
