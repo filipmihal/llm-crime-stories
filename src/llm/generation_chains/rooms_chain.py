@@ -1,13 +1,17 @@
 from collections import deque
 from langchain.prompts import PromptTemplate
 from langchain.schema import BaseOutputParser
+from marshmallow import ValidationError
 import re
+from typing import Optional
 import yaml
 
-class RoomsYamlOutputParser(BaseOutputParser):
+from llm.marshmallow.schemas import RoomSchema
+
+class RoomYamlOutputParser(BaseOutputParser):
     """Parse the output of an LLM call to YAML."""
 
-    def parse(self, text: str):
+    def parse(self, text: str) -> Optional[RoomSchema]:
         """Parse the output of an LLM call."""
         match = (
             re.search(r"- [rR]oom:[\s\S]*", text)
@@ -23,7 +27,12 @@ class RoomsYamlOutputParser(BaseOutputParser):
         if '`' in group:
             group = re.search(r'([^`]+)`', group).group(1).strip()
         
-        return yaml.safe_load(group)
+        obj = yaml.safe_load(group)
+        try:
+            return RoomSchema().load(obj)
+        except ValidationError as err:
+            print(err.messages)
+            return None
 
 class RoomsChain:
     def __init__(self, llm, rooms_layout):
@@ -73,7 +82,7 @@ class RoomsChain:
     def create(self, theme, victim, suspects):
         # generate description for the starting room, assumes square rooms layout
         middle_row, middle_col = self._rows // 2, self._columns // 2
-        start_story = self.generate_room(self._victim_prompt, theme, victim)
+        start_story = self.create(self._victim_prompt, theme, victim)
         start_story.update({"row": middle_row, "col": middle_col})
 
         # contains final description of rooms
@@ -90,7 +99,7 @@ class RoomsChain:
 
             row, col = current_room
 
-            current_room_story = self.generate_room(
+            current_room_story = self.create(
                 self._suspect_prompt, theme, not_selected_suspects.popleft()
             )
             current_room_story.update({"row": row, "j": col})
@@ -102,8 +111,8 @@ class RoomsChain:
 
         return rooms_data, suspects_positions
 
-    def generate_room(self, prompt, theme, entity):
-        chain = prompt | self._llm | RoomsYamlOutputParser()
+    def create(self, prompt, theme, entity):
+        chain = prompt | self._llm | RoomYamlOutputParser()
         return chain.invoke({"theme": theme, "entity": entity})
 
     def _get_neighbours(self, row, col):

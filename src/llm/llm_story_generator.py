@@ -1,63 +1,51 @@
-from dataclasses import dataclass
 import json
 from langchain.llms import HuggingFacePipeline
+from marshmallow import ValidationError
 from typing import List
 
 from llm.llama import Llama
-from llm.gen_chains.suspect_chain import SuspectChain
-from llm.gen_chains.victim_chain import VictimChain
-from llm.gen_chains.rooms_chain import RoomsChain
+from llm.generation_chains import KillerChain, RoomsChain, SuspectChain, VictimChain
+from llm.marshmallow.schemas import StorySchema
+from environment.types import Grid
 
-@dataclass
-class Room:
-    name: str
-    description: str
-
-@dataclass
-class Suspect:
-    name: str
-    age: int
-    occupation: str
-    is_guilty: bool
-    motive: str
-    alibi: str
-
-@dataclass
-class Victim:
-    name: str
-    age: int
-    occupation: str
-    murder_weapon: str
-    death_description: str
-
-@dataclass
-class Story:
-    theme: str
-    victim: Victim
-    suspects: List[Suspect]
-    rooms: List[Room]
 
 class LlmStoryGenerator:
-    def __init__(self, rooms_layout):
-        llama_pipeline = Llama().pipeline
+    def __init__(self, rooms_layout: Grid, llm=None) -> None:
+        llama_pipeline = Llama().pipeline if not llm else llm.pipeline
         self._llm = HuggingFacePipeline(pipeline=llama_pipeline)
-        
+
         self._rooms_layout = rooms_layout
-    
-    def create_new_story(self, number_of_suspects: int, theme: str, dummy: bool = False) -> Story:
+
+    def create_new_story(
+        self, number_of_suspects: int, theme: str, dummy: bool = False
+    ) -> StorySchema:
         if dummy:
-            with open("./llm-dungeon-adventures/data/dummy.json", 'r') as f:
+            with open("./llm-dungeon-adventures/data/dummy.json", "r") as f:
                 return json.load(f)
 
-
         victim = VictimChain(self._llm).create(theme)
-        suspects = SuspectChain(self._llm).create(number_of_suspects, theme, victim)
-        rooms, suspects_positions = RoomsChain(self._llm, self._rooms_layout).create(theme, victim, suspects)
-    
-        return {
-            "theme": theme,
-            "victim": victim,
-            "suspects": suspects,
-            "rooms": rooms,
-            "suspects_positions": suspects_positions
-        }
+        killer = KillerChain(self._llm).create(theme, victim)
+
+        suspects_chain = SuspectChain(self._llm)
+        suspects = [
+            suspects_chain.create(theme, victim) for _ in range(number_of_suspects)
+        ]
+
+        rooms, suspects_positions = RoomsChain(self._llm, self._rooms_layout).create(
+            theme, victim, suspects
+        )
+
+        try:
+            return StorySchema().load(
+                {
+                    "theme": theme,
+                    "victim": victim,
+                    "killer": killer,
+                    "suspects": suspects,
+                    "rooms": rooms,
+                    "suspects_positions": suspects_positions,
+                }
+            )
+        except ValidationError as err:
+            print(err.messages)
+            return None
