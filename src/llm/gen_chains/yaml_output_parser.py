@@ -7,5 +7,5 @@ class YamlOutputParser(BaseOutputParser):
 
     def parse(self, text: str):
         """Parse the output of an LLM call."""
-        return yaml.safe_load(text)
+        return yaml.load(text)
         
