@@ -4,6 +4,7 @@ import transformers
 from torch import bfloat16, cuda
 from transformers import StoppingCriteria, StoppingCriteriaList
 
+
 class Llama:
     def __init__(self):
         model_id = "meta-llama/Llama-2-7b-chat-hf"
@@ -21,7 +22,9 @@ class Llama:
 
         # begin initializing HF items, you need an access token
         hf_auth = os.environ["HF_AUTH"]
-        model_config = transformers.AutoConfig.from_pretrained(model_id, use_auth_token=hf_auth)
+        model_config = transformers.AutoConfig.from_pretrained(
+            model_id, use_auth_token=hf_auth
+        )
 
         model = transformers.AutoModelForCausalLM.from_pretrained(
             model_id,
@@ -37,13 +40,14 @@ class Llama:
 
         print(f"Model loaded on {device}")
 
-        tokenizer = transformers.AutoTokenizer.from_pretrained(model_id, use_auth_token=hf_auth)
+        tokenizer = transformers.AutoTokenizer.from_pretrained(
+            model_id, use_auth_token=hf_auth
+        )
 
-        stop_list = ["\nHuman:", "\n```\n"]
+        stop_list = ["\nQ:", "\n}\n"]
 
         stop_token_ids = [tokenizer(x)["input_ids"] for x in stop_list]
         stop_token_ids = [torch.LongTensor(x).to(device) for x in stop_token_ids]
-
 
         # define custom stopping criteria object
         class StopOnTokens(StoppingCriteria):
@@ -54,7 +58,6 @@ class Llama:
                     if torch.eq(input_ids[0][-len(stop_ids) :], stop_ids).all():
                         return True
                 return False
-
 
         stopping_criteria = StoppingCriteriaList([StopOnTokens()])
 
@@ -68,7 +71,7 @@ class Llama:
             max_new_tokens=4096,  # max number of tokens to generate in the output
             repetition_penalty=1.2,  # without this output begins repeating
         )
-        
+
     @property
     def pipeline(self):
         return self._generate_text
