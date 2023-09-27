@@ -31,7 +31,7 @@ class VictimChain:
                 death_description: "Body found in the garage with one bullet wound to the chest, signs of strangulation"
             
             Give the output for the following theme:
-            {{theme}}
+            {theme}
             """
         )
 
