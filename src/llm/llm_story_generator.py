@@ -44,7 +44,7 @@ class LlmStoryGenerator:
         
         self._rooms_layout = rooms_layout
     
-    def create_new_story(self, theme: str, number_of_suspects: int, dummy: bool = False) -> Story:
+    def create_new_story(self, number_of_suspects: int, theme: str, dummy: bool = False) -> Story:
         if dummy:
             with open("./llm-dungeon-adventures/data/dummy.json", 'r') as f:
                 return json.load(f)
