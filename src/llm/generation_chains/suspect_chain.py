@@ -27,6 +27,7 @@ class SuspectYamlOutputParser(BaseOutputParser):
             group = re.search(r"([^`]+)`", group).group(1).strip()
 
         obj = yaml.safe_load(group)
+        print(obj)
         try:
             return SuspectSchema().load(obj['suspect'])
         except ValidationError as err:
