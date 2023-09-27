@@ -21,6 +21,8 @@ class VictimYamlOutputParser(BaseOutputParser):
 
         if not yaml_in_text.startswith("-"):
             yaml_in_text = "- " + yaml_in_text
+            
+        yaml_in_text = yaml_in_text.strip("`")
 
         return yaml.safe_load(yaml_in_text)
 

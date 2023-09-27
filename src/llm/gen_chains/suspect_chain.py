@@ -15,6 +15,7 @@ class SuspectYamlOutputParser(BaseOutputParser):
             or re.search(r"suspects:[\s\S]*\n", text)
         )
         yaml_in_text = match.group(0)
+        yaml_in_text = yaml_in_text.strip('`')
         
         return yaml.safe_load(yaml_in_text)
 
