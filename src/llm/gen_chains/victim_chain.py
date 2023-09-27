@@ -45,10 +45,9 @@ class VictimChain:
                 age: 25
                 occupation: "nurse"
                 murder_weapon: "hunter's knife"
-                death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area"
+                death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area" [/INST]
             
-            Give the output for the following theme:
-            {theme}
+            Give the output for the following theme: {theme}
             """
         )
 

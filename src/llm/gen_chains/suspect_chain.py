@@ -29,7 +29,7 @@ class SuspectChain:
             You are a crime storyteller.
             <<SYS>>
 
-            Given a theme and information about the victim describe 3 suspects, one of whom is the killer. [/INST]
+            Given a theme and information about the victim describe 3 suspects, one of whom is the killer.
             
             An example is below. Note that do not output anything else other than just the YAML of created suspects.
             
@@ -60,9 +60,9 @@ class SuspectChain:
                   Gaius, known as the 'Crazy Librarian,' has no alibi. He claims he was in his secret chamber, delving into forbidden texts. No one can vouch for his whereabouts.
                 motive: >
                   Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.
-                is_guilty: true
+                is_guilty: true [/INST]
                                     
-            Give the output for the following theme {theme} and victim information {victim}
+            Give the output for the following theme: {theme} and victim information: {victim}
             """
         )
 
