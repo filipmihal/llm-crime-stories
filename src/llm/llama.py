@@ -6,7 +6,7 @@ from transformers import StoppingCriteria, StoppingCriteriaList
 
 class Llama:
     def __init__(self):
-        model_id = "meta-llama/Llama-2-7b-chat-hf"
+        model_id = "meta-llama/Llama-2-70b-chat-hf"
 
         device = f"cuda:{cuda.current_device()}" if cuda.is_available() else "cpu"
 
