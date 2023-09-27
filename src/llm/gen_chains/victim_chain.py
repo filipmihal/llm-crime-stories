@@ -9,6 +9,7 @@ class VictimYamlOutputParser(BaseOutputParser):
 
     def parse(self, text: str):
         """Parse the output of an LLM call."""
+        print(text)
         match = (
             re.search(r"- victim:[\s\S]*", text)
             or re.search(r"victim:[\s\S]*", text)
@@ -16,6 +17,7 @@ class VictimYamlOutputParser(BaseOutputParser):
             or re.search(r"victim:[\s\S]*\n", text)
         )
         yaml_in_text = match.group(0)
+        print(yaml_in_text)
 
         if not yaml_in_text.startswith("-"):
             yaml_in_text = "- " + yaml_in_text
