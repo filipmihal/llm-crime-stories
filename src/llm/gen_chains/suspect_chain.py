@@ -104,14 +104,14 @@ class SuspectChain:
             """
         )
 
-    def create(self, theme, victim):
+    def create(self, number_of_suspects, theme, victim):
         suspects = []
 
         self._killer_chain = self._killer_prompt | self._llm | KillerYamlOutputParser()
         suspects.append(self._killer_chain.invoke({"theme": theme, "victim": victim}))
 
         self._suspect_chain = self._suspect_prompt | self._llm | SuspectYamlOutputParser()
-        for _ in range(2):
+        for _ in range(number_of_suspects):
           suspects.append(self._suspect_chain.invoke({"theme": theme, "victim": victim}))
 
         return suspects
