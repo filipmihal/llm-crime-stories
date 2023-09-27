@@ -1,8 +1,7 @@
 from collections import deque
-import json
 from langchain.prompts import PromptTemplate
 
-from llm.gen_chains.json_output_parser import JsonOutputParser
+from llm.gen_chains.yaml_output_parser import YamlOutputParser
 
 
 class RoomsChain:
@@ -12,40 +11,23 @@ class RoomsChain:
         self._rooms_layout = rooms_layout
         self._rows, self._columns = len(rooms_layout), len(rooms_layout[0])
 
-        self._json_schema = json.dumps(
-            {
-                "type": "object",
-                "properties": {
-                    "name": {"type": "string"},
-                    "description": {"type": "string"},
-                },
-                "required": ["name", "description"],
-            }
-        )
-
         self._suspect_prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
-            You are a crime storyteller.
-            Always output your answer in JSON according to the schema {{schema}}.
-            No pre-amble.
-            The theme of the story is: {{theme}}.
+            You are a crime storyteller. Always output your answer in YAML. No pre-amble.
             <<SYS>>
 
-            Describe a room and here are information about the suspect person that is in there: {{entity}}. [/INST]
+            The theme of the story is: {{theme}}. Describe a room and here are information about the suspect person that is in there: {{entity}}. [/INST]
             """
         )
 
         self._victim_prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
-            You are a crime storyteller.
-            Always output your answer in JSON according to the schema {{schema}}.
-            No pre-amble.
-            The theme of the story is: {{theme}}.
+            You are a crime storyteller. Always output your answer in YAML. No pre-amble.
             <<SYS>>
 
-            Describe a room where the body was found. The information about the victim: {{entity}}. [/INST]
+            The theme of the story is: {{theme}}. Describe a room where the body was found. The information about the victim: {{entity}}. [/INST]
             """
         )
 
@@ -54,7 +36,6 @@ class RoomsChain:
         middle_row, middle_col = self._rows // 2, self._columns // 2
         start_story = self.generate_room(self._victim_prompt, theme, victim)
         start_story.update({"row": middle_row, "col": middle_col})
-        # start_story += "row:" + str(middle_row) + ", col:" + str(middle_col)
 
         # contains final description of rooms
         rooms_data, suspects_positions = [start_story], []
@@ -74,7 +55,6 @@ class RoomsChain:
                 self._suspect_prompt, theme, not_selected_suspects.popleft()
             )
             current_room_story.update({"row": row, "j": col})
-            # current_room_story += "row:" + str(row) + ", col:" + str(col)
             rooms_data.append(current_room_story)
 
             generated.add((row, col))
@@ -84,10 +64,8 @@ class RoomsChain:
         return rooms_data, suspects_positions
 
     def generate_room(self, prompt, theme, entity):
-        chain = prompt | self._llm | JsonOutputParser()
-        return chain.invoke(
-            {"theme": theme, "entity": entity, "schema": self._json_schema}
-        )
+        chain = prompt | self._llm | YamlOutputParser()
+        return chain.invoke({"theme": theme, "entity": entity})
 
     def _get_neighbours(self, row, col):
         neighbours = []
@@ -98,5 +76,5 @@ class RoomsChain:
                 and self._rooms_layout[row + x][col + y]
             ):
                 neighbours.append((row + x, col + y))
-                
+
         return neighbours
