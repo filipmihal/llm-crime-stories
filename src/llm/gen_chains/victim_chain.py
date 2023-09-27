@@ -10,10 +10,10 @@ class VictimYamlOutputParser(BaseOutputParser):
     def parse(self, text: str):
         """Parse the output of an LLM call."""
         match = (
-            re.search(r"- victim:[\s\S]*", text)
-            or re.search(r"victim:[\s\S]*", text)
-            or re.search(r"- victim:[\s\S]*\n", text)
-            or re.search(r"victim:[\s\S]*\n", text)
+            re.search(r"- [vV]ictim:[\s\S]*", text)
+            or re.search(r"[vV]ictim:[\s\S]*", text)
+            or re.search(r"- [vV]ictim:[\s\S]*\n", text)
+            or re.search(r"[vV]ictim:[\s\S]*\n", text)
         )
         group = match.group(0)
 
