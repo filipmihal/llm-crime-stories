@@ -9,7 +9,7 @@ class RoomsYamlOutputParser(BaseOutputParser):
 
     def parse(self, text: str):
         """Parse the output of an LLM call."""
-        print(text)
+        # print(text)
         match = (
             re.search(r"- [rR]oom:[\s\S]*", text)
             or re.search(r"[rR]oom:[\s\S]*", text)
@@ -72,6 +72,7 @@ class RoomsChain:
         # generate description for the starting room, assumes square rooms layout
         middle_row, middle_col = self._rows // 2, self._columns // 2
         start_story = self.generate_room(self._victim_prompt, theme, victim)
+        print(start_story)
         start_story.update({"row": middle_row, "col": middle_col})
 
         # contains final description of rooms

@@ -51,7 +51,9 @@ class LlmStoryGenerator:
 
 
         victim = VictimChain(self._llm).create(theme)
+        print(victim)
         suspects = SuspectChain(self._llm).create(theme, victim)
+        print(suspects)
         rooms, suspects_positions = RoomsChain(self._llm, self._rooms_layout).create(theme, victim, suspects)
 
     
