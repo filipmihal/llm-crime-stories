@@ -1,7 +1,20 @@
 from langchain.prompts import PromptTemplate
+from langchain.schema import BaseOutputParser
+import re
+import yaml
 
-from llm.gen_chains.yaml_output_parser import YamlOutputParser
+class VictimYamlOutputParser(BaseOutputParser):
+    """Parse the output of an LLM call of the Victim chain to YAML."""
 
+    def parse(self, text: str):
+        """Parse the output of an LLM call."""
+        match = re.search(r'- victim:[\s\S]*', text) or re.search(r'victim:[\s\S]*', text)
+        yaml_in_text = match.group(0)
+        
+        if not yaml_in_text.startswith('-'):
+            yaml_in_text = '- ' + yaml_in_text
+
+        return yaml.safe_load(yaml_in_text)
 
 class VictimChain:
     def __init__(self, llm):
@@ -35,7 +48,7 @@ class VictimChain:
             """
         )
 
-        self._chain = self._prompt | llm | YamlOutputParser()
+        self._chain = self._prompt | llm | VictimYamlOutputParser()
 
     def create(self, theme):
         return self._chain.invoke({"theme": theme})
