@@ -30,7 +30,7 @@ class SuspectChain:
             
             An example is below. Note that do not output anything else other than just the YAML of created suspects.
             
-            Example 1)
+            Example
             suspects: 
               - name: "Lucius"
                 age: 35
