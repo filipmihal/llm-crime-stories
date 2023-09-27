@@ -10,10 +10,10 @@ class SuspectYamlOutputParser(BaseOutputParser):
         """Parse the output of an LLM call."""
         print(text)
         match = (
-            re.search(r"- suspects:[\s\S]*", text)
-            or re.search(r"suspects:[\s\S]*", text)
-            or re.search(r"- suspects:[\s\S]*\n", text)
-            or re.search(r"suspects:[\s\S]*\n", text)
+            re.search(r"- [sS]uspects:[\s\S]*", text)
+            or re.search(r"[sS]uspects:[\s\S]*", text)
+            or re.search(r"- [sS]uspects:[\s\S]*\n", text)
+            or re.search(r"[sS]uspects:[\s\S]*\n", text)
         )
         yaml_in_text = match.group(0)
         yaml_in_text = yaml_in_text.strip('`')
