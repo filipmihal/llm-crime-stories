@@ -26,8 +26,9 @@ class KillerYamlOutputParser(BaseOutputParser):
             group = re.search(r"([^`]+)`", group).group(1).strip()
 
         obj = yaml.safe_load(group)
+        top_level_key = list(obj.keys())[0]
         try:
-            return KillerSchema().load(obj['killer'])
+            return KillerSchema().load(obj[top_level_key])
         except ValidationError as err:
             print(err.messages)
             return None
