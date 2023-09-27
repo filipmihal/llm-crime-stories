@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Tuple
 
-from environment.types import Direction, Location, Position, Grid
+from environment.types import Direction, Room, Position, Grid
 
 
 class GridGenerator(ABC):
@@ -27,5 +27,5 @@ class GridGenerator(ABC):
         return [direction.value for direction in Direction]
 
     @abstractmethod
-    def generate(self, size: int, generator_seed: int) -> Tuple[Location, Grid]:
+    def generate(self, size: int, generator_seed: int) -> Tuple[Room, Grid]:
         pass
