@@ -45,10 +45,10 @@ class RoomsChain:
         start_story.update({"row": middle_row, "col": middle_col})
 
         # contains final description of rooms
-        rooms_data = [start_story]
+        rooms_data, suspects_positions = [start_story], []
 
         # generate rest of the rooms
-        not_selected_suspects = suspects
+        not_selected_suspects = deque(suspects)
         generated = set([(middle_row, middle_col)])
         q = deque(list(self._get_neighbours(middle_row, middle_col)))
         while q:
@@ -59,15 +59,16 @@ class RoomsChain:
             row, col = current_room
 
             current_room_story = self.generate_room(
-                self._suspect_prompt, theme, not_selected_suspects.pop()
+                self._suspect_prompt, theme, not_selected_suspects.popleft()
             )
             current_room_story.update({"row": row, "j": col})
             rooms_data.append(current_room_story)
 
             generated.add((row, col))
             q.extend(self._get_neighbours(row, col))
+            suspects_positions.append((row, col))
 
-        return rooms_data
+        return rooms_data, suspects_positions
 
     def generate_room(self, prompt, theme, entity):
         chain = prompt | self._llm | JsonOutputParser()
