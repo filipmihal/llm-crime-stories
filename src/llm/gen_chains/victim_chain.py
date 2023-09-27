@@ -38,4 +38,5 @@ class VictimChain:
         self._chain = self._prompt | llm | YamlOutputParser()
 
     def create(self, theme):
+        print(self._prompt.format(theme=theme))
         return self._chain.invoke({"theme": theme})
