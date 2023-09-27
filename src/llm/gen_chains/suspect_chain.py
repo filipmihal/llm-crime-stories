@@ -8,8 +8,6 @@ class SuspectChain:
     def __init__(self, llm):
         self._json_schema = json.dumps(
             {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "title": "Generated schema for Root",
                 "type": "object",
                 "properties": {
                     "name": {"type": "string"},
@@ -32,10 +30,15 @@ class SuspectChain:
 
         self._prompt = PromptTemplate.from_template(
             """
-            You are a crime storyteller. The theme of the story is: {{theme}}.
-            The victim: {{victim}}. Describe 3 suspects, one of whom is the killer.
-            Return the response in this json schema: {{schema}}. No pre-amble. Always output a valid JSON according the schema.
-        """
+            <s>[INST] <<SYS>>
+            You are a crime storyteller.
+            Always output your answer in JSON according to the schema {{schema}}.
+            No pre-amble.
+            The theme of the story is: {{theme}}.
+            <<SYS>>
+
+            Information about the victim: {{victim}}. Describe 3 suspects, one of whom is the killer. [/INST]
+            """
         )
 
         self._chain = self._prompt | llm | JsonOutputParser()

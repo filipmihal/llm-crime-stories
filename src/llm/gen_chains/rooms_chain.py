@@ -14,31 +14,39 @@ class RoomsChain:
 
         self._json_schema = json.dumps(
             {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "title": "Generated schema for Root",
                 "type": "object",
                 "properties": {
-                    "room_name": {"type": "string"},
+                    "name": {"type": "string"},
                     "description": {"type": "string"},
                 },
-                "required": ["room_name", "description"],
+                "required": ["name", "description"],
             }
         )
 
         self._suspect_prompt = PromptTemplate.from_template(
             """
-            You are a crime storyteller. The theme of the story is: {{theme}}.
-            Describe a room and here are information about the suspect person that is in there: {{entity}}.
-            Return the response in the following json schema {{schema}}. No pre-amble. Always output a valid JSON according the schema.
-        """
+            <s>[INST] <<SYS>>
+            You are a crime storyteller.
+            Always output your answer in JSON according to the schema {{schema}}.
+            No pre-amble.
+            The theme of the story is: {{theme}}.
+            <<SYS>>
+
+            Describe a room and here are information about the suspect person that is in there: {{entity}}. [/INST]
+            """
         )
 
         self._victim_prompt = PromptTemplate.from_template(
             """
-            You are a crime storyteller. The theme of the story is: {{theme}}.
-            Describe a room where the body was found. The information about the victim: {{entity}}.
-            Return the response in the following json schema {{schema}}. No pre-amble. Always output a valid JSON according the schema.
-        """
+            <s>[INST] <<SYS>>
+            You are a crime storyteller.
+            Always output your answer in JSON according to the schema {{schema}}.
+            No pre-amble.
+            The theme of the story is: {{theme}}.
+            <<SYS>>
+
+            Describe a room where the body was found. The information about the victim: {{entity}}. [/INST]
+            """
         )
 
     def create(self, theme, victim, suspects):
