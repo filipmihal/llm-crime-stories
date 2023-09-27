@@ -84,6 +84,7 @@ class RoomsChain:
         # generate description for the starting room, assumes square rooms layout
         middle_row, middle_col = self._rows // 2, self._columns // 2
         start_story = self.create(self._victim_prompt, theme, victim)
+        print(start_story)
         start_story.update({"row": middle_row, "col": middle_col})
 
         # contains final description of rooms
