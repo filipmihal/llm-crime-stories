@@ -43,7 +43,7 @@ class RoomsChain:
 
     def create(self, theme, victim, suspects):
         # firstly, generate description for the starting room, assumes square rooms layout
-        middle_row, middle_col = self._rows // 2 + 1, self._columns // 2 + 1
+        middle_row, middle_col = self._rows // 2, self._columns // 2
         start_story = self.generate_room(self._victim_prompt, theme, victim)
         # start_story.update({"row": middle_row, "col": middle_col})
         start_story += "row:" + str(middle_row) + ", col:" + str(middle_col)
@@ -54,7 +54,7 @@ class RoomsChain:
         # generate rest of the rooms
         not_selected_suspects = deque(suspects)
         generated = set([(middle_row, middle_col)])
-        q = deque(list(self._get_neighbours(middle_row, middle_col)))
+        q = deque(self._get_neighbours(middle_row, middle_col))
         while q:
             current_room = q.pop()
             if current_room in generated:
