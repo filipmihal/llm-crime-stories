@@ -15,7 +15,7 @@ class VictimChain:
             
             For example:
             ```
-            - Victim:
+            - victim:
                 name: "Alicia Williams"
                 age: 25
                 occupation: "nurse"
