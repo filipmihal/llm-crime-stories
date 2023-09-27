@@ -28,7 +28,7 @@ class SuspectYamlOutputParser(BaseOutputParser):
 
         obj = yaml.safe_load(group)
         try:
-            return SuspectSchema().load(obj)
+            return SuspectSchema().load(obj['suspect'])
         except ValidationError as err:
             print(err.messages)
             return None

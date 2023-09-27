@@ -27,7 +27,7 @@ class KillerYamlOutputParser(BaseOutputParser):
 
         obj = yaml.safe_load(group)
         try:
-            return KillerSchema.load(obj)
+            return KillerSchema.load(obj['killer'])
         except ValidationError as err:
             print(err.messages)
             return None

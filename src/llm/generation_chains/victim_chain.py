@@ -27,7 +27,6 @@ class VictimYamlOutputParser(BaseOutputParser):
             group = re.search(r'([^`]+)`', group).group(1).strip()
         
         obj = yaml.safe_load(group)
-        print(obj)
         try:
             return VictimSchema().load(obj['victim'])
         except ValidationError as err:

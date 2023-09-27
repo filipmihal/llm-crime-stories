@@ -29,7 +29,7 @@ class RoomYamlOutputParser(BaseOutputParser):
         
         obj = yaml.safe_load(group)
         try:
-            return RoomSchema().load(obj)
+            return RoomSchema().load(obj['room'])
         except ValidationError as err:
             print(err.messages)
             return None
