@@ -9,7 +9,6 @@ class RoomsYamlOutputParser(BaseOutputParser):
 
     def parse(self, text: str):
         """Parse the output of an LLM call."""
-        print(text)
         match = (
             re.search(r"- [rR]oom:[\s\S]*", text)
             or re.search(r"[rR]oom:[\s\S]*", text)
