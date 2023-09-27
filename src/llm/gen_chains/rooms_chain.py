@@ -90,7 +90,9 @@ class RoomsChain:
 
             current_room_story = self.generate_room(
                 self._suspect_prompt, theme, not_selected_suspects.popleft()
-            )[0]
+            )
+            if isinstance(current_room, list):
+                current_room_story = current_room_story[0]
             current_room_story.update({"row": row, "j": col})
             rooms_data.append(current_room_story)
 
