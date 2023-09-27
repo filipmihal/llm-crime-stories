@@ -12,9 +12,8 @@ class VictimChain:
             <<SYS>>
 
             The theme of the story is: {{theme}}. Describe a victim's name, age, occupation, murder weapon and death description.
-            Dont forget '-' before victim in YAML to denote an object.
             
-            For example:
+            For example, a desired output for a created victim looks like:
             ```
             - victim:
                 name: "Alicia Williams"

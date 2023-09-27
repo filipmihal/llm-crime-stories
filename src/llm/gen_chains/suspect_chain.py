@@ -13,7 +13,7 @@ class SuspectChain:
 
             The theme of the story is: {{theme}}. Describe 3 suspects, one of whom is the killer. Information about the victim: {{victim}}. [/INST]
             
-            For example:
+            For example, a desired output for 3 created suspects looks like:
             ```
             suspects:
                 - name: "Lucius"
