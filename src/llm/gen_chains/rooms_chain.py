@@ -14,20 +14,38 @@ class RoomsChain:
         self._suspect_prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
-            You are a crime storyteller. Always output your answer in YAML. No pre-amble.
+            You are a crime storyteller.
             <<SYS>>
 
-            The theme of the story is: {{theme}}. Describe a room and here are information about the suspect person that is in there: {{entity}}. [/INST]
+            Describe a room given a theme and information about a suspect person in that room.
+            Room is described by its name and a description.
+            An example is below. Note that you must output only created description converted to YAML.
+            
+            Example answer:
+            - room:
+                name: "The Ancient Manuscript Chamber"
+                description: "The room to the north of the 'Ancient Manuscript Chamber' is known as the 'Preservation Gallery.' It serves as a critical space for the maintenance and restoration of the library's valuable scrolls and manuscripts. The room is well-lit with natural sunlight streaming in through high windows, revealing a contrast to the dimly lit chamber next door. Large, polished wooden tables occupy the center of the room, where scholars and assistants like Lucius meticulously repair and transcribe ancient texts. Rows of neatly organized shelves hold scrolls in protective containers. The air in this room carries the faint aroma of aged parchment and the careful attention of those dedicated to preserving the knowledge of the ages. Lucius, the Librarian's Assistant, was seen in this room working diligently during the time of Drusilla's murder, and he claims he had no involvement in the crime." [/INST]
+            
+            Give the output for the following theme: {theme} and suspect: {entity}
             """
         )
 
         self._victim_prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
-            You are a crime storyteller. Always output your answer in YAML. No pre-amble.
+            You are a crime storyteller.
             <<SYS>>
 
-            The theme of the story is: {{theme}}. Describe a room where the body was found. The information about the victim: {{entity}}. [/INST]
+            Describe a room where the body was found given a theme and information about the victim.
+            Room is described by its name and a description.
+            An example is below. Note that you must output only created description converted to YAML.
+            
+            Example answer:
+            - room:
+                name: "The Ancient Manuscript Chamber"
+                description: "The room where Drusilla's lifeless body was discovered is known as the 'Ancient Manuscript Chamber.'It is a dimly lit and secluded section of the library, hidden away from the bustling main halls. The chamber is lined with tall, dusty bookshelves filled with scrolls and manuscripts dating back centuries. The air is heavy with the scent of aging parchment and the mustiness of forgotten knowledge. Dim torches cast flickering shadows on the ancient tomes, creating an eerie ambiance. The room is a labyrinth of knowledge, and it was amidst this maze of scrolls and manuscripts that Drusilla met her tragic end, stabbed multiple times with an ancient dagger." [/INST]
+            
+            Give the output for the following theme: {theme} and victim: {entity}
             """
         )
 
