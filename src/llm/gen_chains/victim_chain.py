@@ -11,16 +11,8 @@ class VictimChain:
             You are a crime storyteller. Always output your answer in YAML. No pre-amble.
             <<SYS>>
 
-            The theme of the story is: {{theme}}. Describe a victim's name, age, occupation, murder weapon and death description.
-            
-            For example, a desired output for a created victim looks like:
-            ```
-                name: "Alicia Williams"
-                age: 25
-                occupation: "nurse"
-                murder_weapon: "hunter's knife"
-                death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area"    
-            ```
+            Create a victim based on the theme: {{theme}}. Give its name, age, occupation, murder weapon and death description.
+            Don't use pre-amble and convert it to YAML.
             """
         )
 
