@@ -38,7 +38,7 @@ class LlmStoryGenerator:
     def create_new_story(self, dummy: bool = False) -> Story:
         if dummy:
             with open("./llm-dungeon-adventures/data/dummy.json", 'r') as f:
-                return json.loads(f)
+                return json.load(f)
     
         # complex llm logic with langchain
     
