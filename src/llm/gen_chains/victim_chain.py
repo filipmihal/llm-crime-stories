@@ -15,11 +15,12 @@ class VictimChain:
             
             For example:
             ```
-            name: "Alicia Williams"
-            age: 25
-            occupation: "nurse"
-            murder_weapon: "hunter's knife"
-            death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area"    
+            - Victim:
+                name: "Alicia Williams"
+                age: 25
+                occupation: "nurse"
+                murder_weapon: "hunter's knife"
+                death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area"    
             ```
             """
         )
