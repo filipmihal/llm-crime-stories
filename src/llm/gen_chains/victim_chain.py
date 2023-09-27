@@ -6,40 +6,23 @@ from llm.gen_chains.json_output_parser import JsonOutputParser
 
 class VictimChain:
     def __init__(self, llm):
-        self._json_schema = json.dumps(
-            {
-                "type": "object",
-                "properties": {
-                    "name": {"type": "string"},
-                    "age": {"type": "number"},
-                    "occupation": {"type": "string"},
-                    "murder_weapon": {"type": "string"},
-                    "death_description": {"type": "string"},
-                },
-                "required": [
-                    "name",
-                    "age",
-                    "occupation",
-                    "murder_weapon",
-                    "death_description",
-                ],
-            }
-        )
-
         self._prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
-            You are a crime storyteller.
-            Always output your answer in JSON.
-            No pre-amble.
-            The theme of the story is: {{theme}}.
+            You are a crime storyteller. The theme of the story is: {{theme}}. No pre-amble.
             <<SYS>>
 
-            Describe a victim's name, age, occupation, murder weapon and death description. [/INST]
+            Describe a victim's name, age, occupation, murder weapon and death description. Output is as this:
+            class Victim:
+                name: str
+                age: int
+                occupation: str
+                murder_weapon: str
+                death_description: str
             """
         )
 
         self._chain = self._prompt | llm | JsonOutputParser()
 
     def create(self, theme):
-        return self._chain.invoke({"theme": theme })
+        return self._chain.invoke({"theme": theme})
