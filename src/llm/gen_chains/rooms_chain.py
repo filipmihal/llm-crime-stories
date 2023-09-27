@@ -90,3 +90,5 @@ class RoomsChain:
                 and self._rooms_layout[row + x][col + y]
             ):
                 neighbours.append((row + x, col + y))
+                
+        return neighbours
