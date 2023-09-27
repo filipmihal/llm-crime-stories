@@ -85,7 +85,7 @@ class RoomsChain:
         neighbours = []
         for x, y in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
             if (
-                0 <= row + x < self.rows
+                0 <= row + x < self._rows
                 and 0 <= col + y < self._columns
                 and self._rooms_layout[row + x][col + y]
             ):
