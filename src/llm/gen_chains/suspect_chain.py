@@ -8,6 +8,7 @@ class SuspectYamlOutputParser(BaseOutputParser):
 
     def parse(self, text: str):
         """Parse the output of an LLM call."""
+        print(text)
         match = (
             re.search(r"- suspects:[\s\S]*", text)
             or re.search(r"suspects:[\s\S]*", text)
