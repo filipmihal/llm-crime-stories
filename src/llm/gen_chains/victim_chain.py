@@ -12,13 +12,17 @@ class VictimChain:
             You are a crime storyteller. The theme of the story is: {{theme}}. No pre-amble.
             <<SYS>>
 
-            Describe a victim's name, age, occupation, murder weapon and death description. Output it as JSON dump of this Python class:
-            class Victim:
-                name: str
-                age: int
-                occupation: str
-                murder_weapon: str
-                death_description: str
+            Describe a victim's name, age, occupation, murder weapon and death description. Output it as JSON.
+                
+            For example, if you describe a victim like Alicia Williams, 25 years, nurse, killed by a hunter's knife, stabbed 36 times in the guts.
+            Then your desired output is:
+            {
+                "name": "Alicia Williams",
+                "age": 25,
+                "occupation": "nurse",
+                "murder_weapon": "hunter's knife",
+                "death_description": "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area"
+            }
             """
         )
 
