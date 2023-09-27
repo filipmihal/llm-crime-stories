@@ -34,9 +34,11 @@ class VictimChain:
             <<SYS>>
 
             Given a theme create a victim in a fictional crime story. Victim is described by its name, age, occupation, murder weapon and death description.
-            A couple of examples are below. Note: do not output anything else other than just the YAML of a created victim.
+            An example is below. Note that output only created victim converted to YAML.
             
             Example
+            Question: Give the output for the following theme: hospital, hunting.
+            Answer: 
             - victim:
                 name: "Alicia Williams"
                 age: 25
