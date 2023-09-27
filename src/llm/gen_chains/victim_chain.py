@@ -18,9 +18,9 @@ class VictimYamlOutputParser(BaseOutputParser):
         )
         group = match.group(0)
 
-        if not group.startswith("-"):
-            group = "- " + group
-            
+        if group.startswith('- '):
+            group = group[2:]
+
         if '`' in group:
             group = re.search(r'([^`]+)`', group).group(1).strip()
         
@@ -36,17 +36,17 @@ class VictimChain:
             <<SYS>>
 
             Given a theme create a victim in a fictional crime story. Victim is described by its name, age, occupation, murder weapon and death description.
-            An example is below. Note that output only created victim converted to YAML.
+            An example is below. Note that output only created victim converted to YAML where all properties are on the same level.
             
             Example
             Question: Give the output for the following theme: hospital, hunting.
             Answer: 
-            - victim:
-                name: "Alicia Williams"
-                age: 25
-                occupation: "nurse"
-                murder_weapon: "hunter's knife"
-                death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area" [/INST]
+            victim:
+              name: "Alicia Williams"
+              age: 25
+              occupation: "nurse"
+              murder_weapon: "hunter's knife"
+              death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area" [/INST]
             
             Give the output for the following theme: {theme}
             """

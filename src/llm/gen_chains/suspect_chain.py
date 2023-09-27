@@ -18,6 +18,9 @@ class SuspectYamlOutputParser(BaseOutputParser):
         )
         group = match.group(0)
 
+        if group.startswith('- '):
+            group = group[2:]
+
         if "`" in group:
             group = re.search(r"([^`]+)`", group).group(1).strip()
 
@@ -38,6 +41,9 @@ class KillerYamlOutputParser(BaseOutputParser):
         )
         group = match.group(0)
 
+        if group.startswith('- '):
+            group = group[2:]
+
         if "`" in group:
             group = re.search(r"([^`]+)`", group).group(1).strip()
 
@@ -56,19 +62,19 @@ class SuspectChain:
 
             Given a theme and information about the victim describe a suspect that is not a killer.
             
-            An example is below. Note that do not output anything else other than just the YAML of a created suspect.
+            An example is below. Note that you must output only created suspect converted to YAML where all properties are on same level.
             
             Example
             suspect: 
-              - name: "Lucius"
-                age: 35
-                occupation: "Librarian's Assistant"
-                alibi: >
-                  Lucius claims he was organizing scrolls in the library's main hall at the time of the murder.
-                  Several witnesses saw him there throughout the evening.
-                motive: >
-                  Lucius had a longstanding feud with Drusilla, who constantly criticized his work and suggested he was not fit for his role.
-                  He might have wanted to silence her. [/INST]
+              name: "Lucius"
+              age: 35
+              occupation: "Librarian's Assistant"
+              alibi: >
+                Lucius claims he was organizing scrolls in the library's main hall at the time of the murder.
+                Several witnesses saw him there throughout the evening.
+              motive: >
+                Lucius had a longstanding feud with Drusilla, who constantly criticized his work and suggested he was not fit for his role.
+                He might have wanted to silence her. [/INST]
                                     
             Give the output for the following theme: {theme} and victim information: {victim}
             """
@@ -82,19 +88,19 @@ class SuspectChain:
 
             Given a theme and information about the victim describe a killer.
             
-            An example is below. Note that do not output anything else other than just the YAML of a created killer.
+            An example is below. Note that you must output only created killer converted to YAML where all properties are on same level.
             
             Example
             killer: 
-              - name: "Gaius"
-                age: 40
-                occupation: "Crazy Librarian"
-                alibi: >
-                  Gaius, known as the 'Crazy Librarian,' has no alibi. He claims he was in his secret chamber, delving into forbidden texts.
-                  No one can vouch for his whereabouts.
-                motive: >
-                  Gaius had become increasingly obsessed with ancient and forbidden knowledge.
-                  He believed that by eliminating anyone who questioned him, he could protect the library's secrets. [/INST]
+              name: "Gaius"
+              age: 40
+              occupation: "Crazy Librarian"
+              alibi: >
+                Gaius, known as the 'Crazy Librarian,' has no alibi. He claims he was in his secret chamber, delving into forbidden texts.
+                No one can vouch for his whereabouts.
+              motive: >
+                Gaius had become increasingly obsessed with ancient and forbidden knowledge.
+                He believed that by eliminating anyone who questioned him, he could protect the library's secrets. [/INST]
                                     
             Give the output for the following theme: {theme} and victim information: {victim}
             """
