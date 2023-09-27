@@ -7,4 +7,5 @@ class JsonOutputParser(BaseOutputParser):
 
     def parse(self, text: str):
         """Parse the output of an LLM call."""
-        return json.loads(text)
+        return json.load(text)
+        
