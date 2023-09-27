@@ -106,7 +106,7 @@ class SuspectChain:
         self._killer_chain = self._killer_prompt | self._llm | KillerYamlOutputParser()
         suspects.append(self._killer_chain.invoke({"theme": theme, "victim": victim}))
 
-        self._suspect_chain = self._prompt | self._llm | SuspectYamlOutputParser()
+        self._suspect_chain = self._suspect_prompt | self._llm | SuspectYamlOutputParser()
         for _ in range(2):
           suspects.append(self._suspect_chain.invoke({"theme": theme, "victim": victim}))
 
