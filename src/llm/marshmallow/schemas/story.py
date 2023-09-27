@@ -1,11 +1,9 @@
 from marshmallow import Schema, fields
 
-from llm.marshmallow.schemas import (
-    KillerSchema,
-    RoomSchema,
-    SuspectSchema,
-    VictimSchema
-)
+from llm.marshmallow.schemas.killer import KillerSchema
+from llm.marshmallow.schemas.room import RoomSchema
+from llm.marshmallow.schemas.suspect import SuspectSchema
+from llm.marshmallow.schemas.victim import VictimSchema
 
 class StorySchema(Schema):
     theme = fields.Str(required=True)
