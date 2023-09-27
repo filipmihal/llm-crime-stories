@@ -1,8 +1,26 @@
 from collections import deque
 from langchain.prompts import PromptTemplate
+from langchain.schema import BaseOutputParser
+import re
+import yaml
 
-from llm.gen_chains.yaml_output_parser import YamlOutputParser
+class RoomsYamlOutputParser(BaseOutputParser):
+    """Parse the output of an LLM call to YAML."""
 
+    def parse(self, text: str):
+        """Parse the output of an LLM call."""
+        match = (
+            re.search(r"- [rR]oom:[\s\S]*", text)
+            or re.search(r"[rR]oom:[\s\S]*", text)
+            or re.search(r"- [rR]]oom:[\s\S]*\n", text)
+            or re.search(r"[rR]oom:[\s\S]*\n", text)
+        )
+        group = match.group(0)
+        
+        if '`' in group:
+            group = re.search(r'([^`]+)`', group).group(1).strip()
+        
+        return yaml.safe_load(group)
 
 class RoomsChain:
     def __init__(self, llm, rooms_layout):
@@ -82,7 +100,7 @@ class RoomsChain:
         return rooms_data, suspects_positions
 
     def generate_room(self, prompt, theme, entity):
-        chain = prompt | self._llm | YamlOutputParser()
+        chain = prompt | self._llm | RoomsYamlOutputParser()
         return chain.invoke({"theme": theme, "entity": entity})
 
     def _get_neighbours(self, row, col):
