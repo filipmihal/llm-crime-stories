@@ -12,7 +12,7 @@ class VictimChain:
             You are a crime storyteller. The theme of the story is: {{theme}}. No pre-amble.
             <<SYS>>
 
-            Describe a victim's name, age, occupation, murder weapon and death description. Output is as this:
+            Describe a victim's name, age, occupation, murder weapon and death description. Output is according to this Python class:
             class Victim:
                 name: str
                 age: int
