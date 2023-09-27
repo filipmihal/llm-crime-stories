@@ -15,10 +15,12 @@ class SuspectYamlOutputParser(BaseOutputParser):
             or re.search(r"- [sS]uspects:[\s\S]*\n", text)
             or re.search(r"[sS]uspects:[\s\S]*\n", text)
         )
-        yaml_in_text = match.group(0)
-        yaml_in_text = yaml_in_text.strip('`')
+        group = match.group(0)
         
-        return yaml.safe_load(yaml_in_text)
+        if '`' in group:
+            group = re.search(r'([^`]+)`', group).group(1).strip()
+        
+        return yaml.safe_load(group)
 
 class SuspectChain:
     def __init__(self, llm):

@@ -16,14 +16,15 @@ class VictimYamlOutputParser(BaseOutputParser):
             or re.search(r"- victim:[\s\S]*\n", text)
             or re.search(r"victim:[\s\S]*\n", text)
         )
-        yaml_in_text = match.group(0)
+        group = match.group(0)
 
-        if not yaml_in_text.startswith("-"):
-            yaml_in_text = "- " + yaml_in_text
+        if not group.startswith("-"):
+            group = "- " + group
             
-        yaml_in_text = yaml_in_text.strip("`")
-
-        return yaml.safe_load(yaml_in_text)
+        if '`' in group:
+            group = re.search(r'([^`]+)`', group).group(1).strip()
+        
+        return yaml.safe_load(group)
 
 
 class VictimChain:
