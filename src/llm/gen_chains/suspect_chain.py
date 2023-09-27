@@ -34,7 +34,7 @@ class SuspectChain:
             """
             You are a crime storyteller. The theme of the story is: {{theme}}.
             The victim: {{victim}}. Describe 3 suspects, one of whom is the killer.
-            Return the response in this json schema: {{schema}}
+            Return the response in this json schema: {{schema}}. No pre-amble. Always output a valid JSON according the schema.
         """
         )
 

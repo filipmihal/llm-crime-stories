@@ -28,8 +28,8 @@ class RoomsChain:
         self._suspect_prompt = PromptTemplate.from_template(
             """
             You are a crime storyteller. The theme of the story is: {{theme}}.
-            Describe a room and this person is in there: {{entity}}.
-            Return the response in the following json schema {{schema}}.
+            Describe a room and here are information about the suspect person that is in there: {{entity}}.
+            Return the response in the following json schema {{schema}}. No pre-amble. Always output a valid JSON according the schema.
         """
         )
 
@@ -37,7 +37,7 @@ class RoomsChain:
             """
             You are a crime storyteller. The theme of the story is: {{theme}}.
             Describe a room where the body was found. The information about the victim: {{entity}}.
-            Return the response in the following json schema {{schema}}.
+            Return the response in the following json schema {{schema}}. No pre-amble. Always output a valid JSON according the schema.
         """
         )
 

@@ -31,7 +31,9 @@ class VictimChain:
         self._prompt = PromptTemplate.from_template(
             """
             You are a crime storyteller. The theme of the story is: {{theme}}.
-            Describe a victim and a murder weapon. Return the response in this json schema: {{schema}}
+            Describe a victim and a murder weapon.
+            Return the response in this json schema: {{schema}}.
+            No pre-amble. Always output a valid JSON according the schema.
         """
         )
         self._chain = self._prompt | llm | JsonOutputParser()
