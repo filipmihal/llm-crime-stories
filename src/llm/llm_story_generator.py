@@ -1,6 +1,12 @@
 from dataclasses import dataclass
 import json
+from langchain.llms import HuggingFacePipeline
 from typing import List
+
+from llm.llama import Llama
+from llm.gen_chains.suspect_chain import SuspectChain
+from llm.gen_chains.victim_chain import VictimChain
+from llm.gen_chains.rooms_chain import RoomsChain
 
 @dataclass
 class Room:
@@ -32,14 +38,26 @@ class Story:
     rooms: List[Room]
 
 class LlmStoryGenerator:
-    def __init__(self):
-        pass
+    def __init__(self, rooms_layout):
+        llama_pipeline = Llama().pipeline
+        self._llm = HuggingFacePipeline(pipeline=llama_pipeline)
+        
+        self._rooms_layout = rooms_layout
     
-    def create_new_story(self, dummy: bool = False) -> Story:
+    def create_new_story(self, theme: str, dummy: bool = False) -> Story:
         if dummy:
             with open("./llm-dungeon-adventures/data/dummy.json", 'r') as f:
                 return json.load(f)
+
+
+        victim = VictimChain(self._llm).create(theme)
+        suspects = SuspectChain(self._llm).create(theme, victim)
+        rooms = RoomsChain(self._llm, self._rooms_layout).create(theme, victim, suspects)
+
     
-        # complex llm logic with langchain
-    
-        return {}
+        return {
+            "theme": theme,
+            "victim": victim,
+            "suspects": suspects,
+            "rooms": rooms
+        }
