@@ -30,16 +30,16 @@ class VictimChain:
             """
             <s>[INST] <<SYS>>
             You are a crime storyteller.
-            Always output your answer in JSON according to the schema {{schema}}.
+            Always output your answer in JSON.
             No pre-amble.
             The theme of the story is: {{theme}}.
             <<SYS>>
 
-            Describe a victim and a murder weapon. [/INST]
+            Describe a victim's name, age, occupation, murder weapon and death description. [/INST]
             """
         )
 
         self._chain = self._prompt | llm | JsonOutputParser()
 
     def create(self, theme):
-        return self._chain.invoke({"theme": theme, "schema": self._json_schema})
+        return self._chain.invoke({"theme": theme })
