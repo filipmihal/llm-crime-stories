@@ -1,3 +1,5 @@
+from langchain.prompts import PromptTemplate
+
 from llm.gen_chains.json_output_parser import JsonOutputParser
 
 
@@ -23,11 +25,12 @@ class VictimChain:
             ],
         }
 
-        self._prompt = """
+        self._prompt = PromptTemplate.from_template(
+            """
             You are a crime storyteller. The theme of the story is: {{theme}}.
             Describe a victim and a murder weapon. Return the response in this json schema: {{schema}}
         """
-
+        )
         self._chain = self._prompt | llm | JsonOutputParser()
 
     def create(self, theme):

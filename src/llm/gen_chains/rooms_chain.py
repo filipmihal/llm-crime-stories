@@ -1,4 +1,5 @@
 from collections import deque
+from langchain.prompts import PromptTemplate
 
 from llm.gen_chains.json_output_parser import JsonOutputParser
 
@@ -21,17 +22,21 @@ class RoomsChain:
             "required": ["room_name", "description"],
         }
 
-        self._suspect_prompt = """
+        self._suspect_prompt = PromptTemplate.from_template(
+            """
             You are a crime storyteller. The theme of the story is: {{theme}}.
             Describe a room and this person is in there: {{entity}}.
             Return the response in the following json schema {{schema}}.
         """
+        )
 
-        self._victim_prompt = """
+        self._victim_prompt = PromptTemplate.from_template(
+            """
             You are a crime storyteller. The theme of the story is: {{theme}}.
             Describe a room where the body was found. The information about the victim: {{entity}}.
             Return the response in the following json schema {{schema}}.
         """
+        )
 
     def create(self, theme, victim, suspects):
         # firstly, generate description for the starting room, assumes square rooms layout
