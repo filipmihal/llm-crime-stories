@@ -12,7 +12,7 @@ class RoomsChain:
         self._rooms_layout = rooms_layout
         self._rows, self._columns = len(rooms_layout), len(rooms_layout[0])
 
-        self._json_schema = json.dump(
+        self._json_schema = json.dumps(
             {
                 "$schema": "http://json-schema.org/draft-07/schema#",
                 "title": "Generated schema for Root",

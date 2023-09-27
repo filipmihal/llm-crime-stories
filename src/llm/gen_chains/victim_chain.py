@@ -6,7 +6,7 @@ from llm.gen_chains.json_output_parser import JsonOutputParser
 
 class VictimChain:
     def __init__(self, llm):
-        self._json_schema = json.dump(
+        self._json_schema = json.dumps(
             {
                 "$schema": "http://json-schema.org/draft-07/schema#",
                 "title": "Generated schema for Root",
