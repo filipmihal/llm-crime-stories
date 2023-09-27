@@ -1,10 +1,11 @@
+import os
 import torch
 import transformers
 from torch import bfloat16, cuda
 from transformers import StoppingCriteria, StoppingCriteriaList
 
 class Llama:
-    def __init__(self, hf_auth: str):
+    def __init__(self):
         model_id = "meta-llama/Llama-2-7b-chat-hf"
 
         device = f"cuda:{cuda.current_device()}" if cuda.is_available() else "cpu"
@@ -19,6 +20,7 @@ class Llama:
         )
 
         # begin initializing HF items, you need an access token
+        hf_auth = os.environ["HF_AUTH"]
         model_config = transformers.AutoConfig.from_pretrained(model_id, use_auth_token=hf_auth)
 
         model = transformers.AutoModelForCausalLM.from_pretrained(
@@ -62,11 +64,11 @@ class Llama:
             task="text-generation",
             # we pass model parameters here too
             stopping_criteria=stopping_criteria,  # without this model rambles during chat
-            temperature=0.1,  # 'randomness' of outputs, 0.0 is the min and 1.0 the max
-            max_new_tokens=1024,  # max number of tokens to generate in the output
-            repetition_penalty=1.1,  # without this output begins repeating
+            temperature=0.2,  # 'randomness' of outputs, 0.0 is the min and 1.0 the max
+            max_new_tokens=4096,  # max number of tokens to generate in the output
+            repetition_penalty=1.2,  # without this output begins repeating
         )
         
     @property
-    def generate_text(self):
+    def pipeline(self):
         return self._generate_text
