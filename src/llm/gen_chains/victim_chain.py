@@ -8,11 +8,10 @@ class VictimChain:
         self._prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
-            You are a crime storyteller.
+            You are a crime storyteller. When answering, don't use pre-amble. Just return the result converted to YAML.
             <<SYS>>
 
             Create a victim based on the theme: {{theme}}. Give its name, age, occupation, murder weapon and death description.
-            Don't use pre-amble and return just the result converted in YAML.
             
             An example of a desired output for a created victim:
             
@@ -21,7 +20,7 @@ class VictimChain:
                 age: 25
                 occupation: "nurse"
                 murder_weapon: "hunter's knife"
-                death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area"    
+                death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area"
             """
         )
 
