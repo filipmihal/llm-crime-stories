@@ -15,7 +15,6 @@ class VictimChain:
             
             For example, a desired output for a created victim looks like:
             ```
-            - victim:
                 name: "Alicia Williams"
                 age: 25
                 occupation: "nurse"
