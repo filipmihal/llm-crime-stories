@@ -1,20 +1,33 @@
 from langchain.prompts import PromptTemplate
+from langchain.schema import BaseOutputParser
+import re
+import yaml
 
 from llm.gen_chains.yaml_output_parser import YamlOutputParser
 
+class SuspectYamlOutputParser(BaseOutputParser):
+    """Parse the output of an LLM call of the Suspect chain to YAML."""
+
+    def parse(self, text: str):
+        """Parse the output of an LLM call."""
+        match = re.search(r'suspects:[\s\S]*', text)
+        yaml_in_text = match.group(0)
+        
+        return yaml.safe_load(yaml_in_text)
 
 class SuspectChain:
     def __init__(self, llm):
         self._prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
-            You are a crime storyteller. Always output your answer in YAML. No pre-amble.
+            You are a crime storyteller.
             <<SYS>>
 
-            The theme of the story is: {{theme}}. Describe 3 suspects, one of whom is the killer. Information about the victim: {{victim}}. [/INST]
+            Given a theme and information about the victim describe 3 suspects, one of whom is the killer. [/INST]
             
-            For example, a desired output for 3 created suspects looks like:
-            ```
+            An example is below. Note: you are to output just YAML of the created suspects.
+            
+            Example 1)
             suspects:
                 - name: "Lucius"
                     age: 35
@@ -42,11 +55,12 @@ class SuspectChain:
                     motive: >
                         Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.
                     is_guilty: true
-            ```
+                    
+            Give the output for the following theme: {theme} and victim information: {victim}
             """
         )
 
-        self._chain = self._prompt | llm | YamlOutputParser()
+        self._chain = self._prompt | llm | SuspectYamlOutputParser()
 
     def create(self, theme, victim):
         return self._chain.invoke({"theme": theme, "victim": victim})
