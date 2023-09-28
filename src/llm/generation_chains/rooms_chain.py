@@ -85,7 +85,7 @@ class RoomsChain:
         # generate description for the starting room, assumes square rooms layout
         middle_row, middle_col = self._rows // 2, self._columns // 2
         print(victim)
-        start_story = self.create(self._victim_prompt, theme, json.dumps(victim))
+        start_story = self.generate_room(self._victim_prompt, theme, json.dumps(victim))
         start_story.update({"row": middle_row, "col": middle_col})
 
         # contains final description of rooms
@@ -102,7 +102,7 @@ class RoomsChain:
 
             row, col = current_room
 
-            current_room_story = self.create(
+            current_room_story = self.generate_room(
                 self._suspect_prompt, theme, json.dumps(not_selected_suspects.popleft())
             )
             current_room_story.update({"row": row, "j": col})
@@ -114,7 +114,7 @@ class RoomsChain:
 
         return rooms_data, suspects_positions
 
-    def create(self, prompt, theme, entity):
+    def generate_room(self, prompt, theme, entity):
         chain = prompt | self._llm | RoomYamlOutputParser()
         return chain.invoke({"theme": theme, "entity": entity})
 
