@@ -5,7 +5,7 @@ from typing import List, Optional
 import yaml
 
 
-class BaseYamlOutputParser(BaseOutputParser):
+class BaseYamlOutputParser:
     """
     Represents a parser of the output of an LLM call of a chain to YAML.
     """
