@@ -105,7 +105,7 @@ class RoomsChain:
             current_room_story = self.generate_room(
                 self._suspect_prompt, theme, json.dumps(not_selected_suspects.popleft())
             )
-            current_room_story.update({"row": row, "j": col})
+            current_room_story.update({"row": row, "COL": col})
             rooms_data.append(current_room_story)
 
             generated.add((row, col))
