@@ -2,14 +2,15 @@ from collections import deque
 import json
 from langchain.prompts import PromptTemplate
 
+from environment.types import Grid
 from llm.output_parsers.room import RoomYamlOutputParser
 
 class RoomsChain:
-    def __init__(self, llm, rooms_layout):
+    def __init__(self, llm, rooms: Grid) -> None:
         self._llm = llm
 
-        self._rooms_layout = rooms_layout
-        self._rows, self._columns = len(rooms_layout), len(rooms_layout[0])
+        self._rooms = rooms
+        self._rows, self._columns = len(rooms), len(rooms[0])
 
         self._suspect_room_prompt = PromptTemplate.from_template(
             """

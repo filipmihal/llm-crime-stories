@@ -26,8 +26,9 @@ class StoryGenerator:
                 return json.load(f)
 
         victim = VictimChain(self._llm).create(theme)
+        print(victim)
         killer = KillerChain(self._llm).create(theme, victim)
-
+        print(killer)
         suspects_chain = SuspectChain(self._llm)
         suspects = [
             suspects_chain.create(theme, victim) for _ in range(number_of_suspects)
