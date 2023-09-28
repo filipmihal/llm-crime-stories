@@ -2,7 +2,7 @@ from environment.game_state import GameState
 from environment.player_action_parser import PlayerActionParser
 from environment.grid_visualizer import GridVisualizer
 from environment.generators.generator import GridGenerator
-from llm.llm_story_generator import SchemaStory
+from llm.marshmallow.schemas.story import StorySchema
 
 class Game:
     """
@@ -29,7 +29,7 @@ class Game:
                 print('------------------')
                 GridVisualizer.visualize(self._game_state)
     
-    def import_story(self, story: SchemaStory) -> None:
+    def import_story(self, story: StorySchema) -> None:
         self._game_state.victim = story.victim
         suspects = {}
         for suspect, position in zip(story.suspects, story.suspects_positions):
