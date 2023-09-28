@@ -18,7 +18,7 @@ class RandomCrimeSceneMapGenerator(BaseCrimeSceneMapGenerator):
             position = choice(list(potential_locations))
             potential_locations.remove(position)
 
-            map.add_room_to_position(position.x, position.y, Room())
+            map.add_room_to_position(position.y, position.x, Room())
 
             for direction in self.relative_directions:
                 new_position = position + direction
