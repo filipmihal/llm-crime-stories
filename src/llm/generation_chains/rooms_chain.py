@@ -84,7 +84,6 @@ class RoomsChain:
     def create(self, theme, victim, suspects):
         # generate description for the starting room, assumes square rooms layout
         middle_row, middle_col = self._rows // 2, self._columns // 2
-        print(victim)
         start_story = self.generate_room(self._victim_prompt, theme, json.dumps(victim))
         start_story.update({"row": middle_row, "col": middle_col})
 
