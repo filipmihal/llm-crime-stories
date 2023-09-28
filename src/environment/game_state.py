@@ -13,6 +13,10 @@ class GameState:
         self._import_story(story)
 
     @property
+    def crime_scene_map(self) -> CrimeSceneMap:
+        return self.crime_scene_map
+
+    @property
     def current_room(self) -> Room:
         return self._current_room
 
