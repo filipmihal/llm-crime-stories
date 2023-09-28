@@ -92,7 +92,7 @@ class RoomsChain:
             if (
                 0 <= row + x < self._rows
                 and 0 <= col + y < self._columns
-                and self._rooms_layout[row + x][col + y]
+                and self._rooms[row + x][col + y]
             ):
                 neighbours.append((row + x, col + y))
 
