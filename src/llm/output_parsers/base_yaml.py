@@ -5,12 +5,13 @@ from typing import List, Optional
 import yaml
 
 
-class BaseYamlOutputParser:
+class BaseYamlOutputParser(BaseOutputParser):
     """
     Represents a parser of the output of an LLM call of a chain to YAML.
     """
 
     def __init__(self, validation_schema_cls: Schema, patterns: List[str]) -> None:
+        super().__init__()
         self._validation_schema_cls = validation_schema_cls
         self._patterns = patterns
 
