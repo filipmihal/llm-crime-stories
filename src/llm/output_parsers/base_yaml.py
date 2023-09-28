@@ -9,14 +9,7 @@ class BaseYamlOutputParser(BaseOutputParser):
     """
     Represents a parser of the output of an LLM call of a chain to YAML.
     """
-    validation_schema_cls: Schema
-    patterns: List[str]
-
-    def __init__(self, validation_schema_cls: Schema, patterns: List[str]) -> None:
-        super().__init__()
-        self.validation_schema_cls = validation_schema_cls
-        self.patterns = patterns
-
+    
     def parse(self, text: str) -> Optional[Schema]:
         """Parse the output of an LLM call."""
         match = None
@@ -34,7 +27,7 @@ class BaseYamlOutputParser(BaseOutputParser):
         obj = yaml.safe_load(group)
         top_level_key = list(obj.keys())[0]
         try:
-            return self.validation_schema_cls().load(obj[top_level_key])
+            return self._validation_schema_cls().load(obj[top_level_key])
         except ValidationError as err:
             print(err.messages)
             return None

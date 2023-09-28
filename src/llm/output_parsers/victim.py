@@ -8,12 +8,11 @@ class VictimYamlOutputParser(BaseYamlOutputParser):
     """
 
     def __init__(self) -> None:
-        super().__init__(
-            VictimSchema,
-            [
+        super().__init__()
+        self._validation_schema_cls = VictimSchema
+        self._patterns = [
                 r"- [vV]ictim:[\s\S]*",
                 r"[vV]ictim:[\s\S]*",
                 r"- [vV]ictim:[\s\S]*\n",
                 r"[vV]ictim:[\s\S]*\n",
-            ],
-        )
+            ]
