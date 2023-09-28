@@ -1,5 +1,5 @@
 from random import choice, seed
-from typing import Tuple, Union
+from typing import Tuple
 
 from environment.generators.generator import GridGenerator
 from environment.types import Grid, Room
