@@ -96,6 +96,7 @@ class Room:
         start_room.neighbours[direction] = end_room
         end_room.neighbours[Direction.opposite(direction)] = start_room
 
+Grid = List[List[Optional[Room]]]
 
 class CrimeSceneMap:
     """

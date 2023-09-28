@@ -11,12 +11,12 @@ from llm.chains.victim_chain import VictimChain
 from llm.marshmallow.schemas.story import StorySchema
 
 
-class LlmStoryGenerator:
-    def __init__(self, rooms_layout: Grid, llm=None) -> None:
+class StoryGenerator:
+    def __init__(self, rooms: Grid, llm=None) -> None:
         llama_pipeline = Llama().pipeline if not llm else llm.pipeline
         self._llm = HuggingFacePipeline(pipeline=llama_pipeline)
 
-        self._rooms_layout = rooms_layout
+        self._rooms = rooms
 
     def create_new_story(
         self, number_of_suspects: int, theme: str, dummy: bool = False
@@ -33,7 +33,7 @@ class LlmStoryGenerator:
             suspects_chain.create(theme, victim) for _ in range(number_of_suspects)
         ]
 
-        rooms, suspects_positions = RoomsChain(self._llm, self._rooms_layout).create(
+        rooms, suspects_positions = RoomsChain(self._llm, self._rooms).create(
             theme, victim, suspects
         )
 
