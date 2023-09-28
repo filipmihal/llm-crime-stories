@@ -1,19 +1,33 @@
-from llm.marshmallow.schemas.killer import KillerSchema
-from llm.output_parsers.base_yaml import BaseYamlOutputParser
+from langchain.schema import BaseOutputParser
+from marshmallow import ValidationError
+import re
+import yaml
 
+from llm.marshmallow.schemas import KillerSchema
 
-class KillerYamlOutputParser(BaseYamlOutputParser):
-    """
-    Parse the output of an LLM call of the Killer chain to YAML.
-    """
+class KillerYamlOutputParser(BaseOutputParser):
+    """Parse the output of an LLM call of the Killer chain to YAML."""
 
-    def __init__(self) -> None:
-        super().__init__(
-            KillerSchema,
-            [
-                r"- [kK]iller:[\s\S]*",
-                r"[kK]iller:[\s\S]*",
-                r"- [kK]iller:[\s\S]*\n",
-                r"[kK]iller:[\s\S]*\n",
-            ],
+    def parse(self, text: str):
+        """Parse the output of an LLM call."""
+        match = (
+            re.search(r"- [kK]iller:[\s\S]*", text)
+            or re.search(r"[kK]iller:[\s\S]*", text)
+            or re.search(r"- [kK]iller:[\s\S]*\n", text)
+            or re.search(r"[kK]iller:[\s\S]*\n", text)
         )
+        group = match.group(0)
+
+        if group.startswith('- '):
+            group = group[2:]
+
+        if "`" in group:
+            group = re.search(r"([^`]+)`", group).group(1).strip()
+
+        obj = yaml.safe_load(group)
+        top_level_key = list(obj.keys())[0]
+        try:
+            return KillerSchema().load(obj[top_level_key])
+        except ValidationError as err:
+            print(err.messages)
+            return None
