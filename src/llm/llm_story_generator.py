@@ -1,15 +1,14 @@
 import json
 from langchain.llms import HuggingFacePipeline
 from marshmallow import ValidationError
-from typing import List
 
+from environment.types import Grid
 from llm.llama import Llama
 from llm.chains.killer_chain import KillerChain
 from llm.chains.rooms_chain import RoomsChain
 from llm.chains.suspect_chain import SuspectChain
 from llm.chains.victim_chain import VictimChain
 from llm.marshmallow.schemas.story import StorySchema
-from environment.types import Grid
 
 
 class LlmStoryGenerator:
