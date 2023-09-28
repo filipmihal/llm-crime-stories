@@ -4,7 +4,7 @@ import re
 from typing import Optional
 import yaml
 
-from llm.marshmallow.schemas import RoomSchema
+from llm.marshmallow.schemas.room import RoomSchema
 
 class RoomYamlOutputParser(BaseOutputParser):
     """Parse the output of an LLM call to YAML."""

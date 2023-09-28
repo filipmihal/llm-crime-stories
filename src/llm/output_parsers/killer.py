@@ -3,7 +3,7 @@ from marshmallow import ValidationError
 import re
 import yaml
 
-from llm.marshmallow.schemas import KillerSchema
+from llm.marshmallow.schemas.killer import KillerSchema
 
 class KillerYamlOutputParser(BaseOutputParser):
     """Parse the output of an LLM call of the Killer chain to YAML."""

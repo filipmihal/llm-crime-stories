@@ -4,7 +4,7 @@ import re
 from typing import Optional
 import yaml
 
-from llm.marshmallow.schemas import SuspectSchema
+from llm.marshmallow.schemas.suspect import SuspectSchema
 
 class SuspectYamlOutputParser(BaseOutputParser):
     """Parse the output of an LLM call of the Suspect chain to YAML."""
