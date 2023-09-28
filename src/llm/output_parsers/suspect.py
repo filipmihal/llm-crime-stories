@@ -11,6 +11,7 @@ class SuspectYamlOutputParser(BaseOutputParser):
 
     def parse(self, text: str) -> Optional[SuspectSchema]:
         """Parse the output of an LLM call."""
+        print(text)
         match = (
             re.search(r"- [sS]uspect:[\s\S]*", text)
             or re.search(r"[sS]uspect:[\s\S]*", text)
