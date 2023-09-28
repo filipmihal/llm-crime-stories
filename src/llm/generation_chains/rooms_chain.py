@@ -109,7 +109,7 @@ class RoomsChain:
 
             generated.add((row, col))
             q.extend(self._get_neighbours(row, col))
-            suspects_positions.append((row, col))
+            suspects_positions.append({"row": row, "col": col})
 
         return rooms_data, suspects_positions
 
