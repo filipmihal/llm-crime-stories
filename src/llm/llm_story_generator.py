@@ -4,7 +4,7 @@ from marshmallow import ValidationError
 from typing import List
 
 from llm.llama import Llama
-from llm.generation_chains import KillerChain, RoomsChain, SuspectChain, VictimChain
+from llm.chains import KillerChain, RoomsChain, SuspectChain, VictimChain
 from llm.marshmallow.schemas import StorySchema
 from environment.types import Grid
 
