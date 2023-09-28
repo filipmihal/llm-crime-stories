@@ -26,7 +26,7 @@ class GridVisualizer:
 
     @staticmethod
     def visualize(game_state: GameState) -> None:
-        start_location = game_state.current_location
+        start_location = game_state.current_room
         grid = game_state.grid
         top, left, right, bottom = GridVisualizer.get_bounds(grid, game_state.dungeon_size)
 

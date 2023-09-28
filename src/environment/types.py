@@ -56,7 +56,7 @@ class Direction(Enum):
         return {v: k for k, v in opposites.items()}[direction]
 
 
-class Location:
+class Room:
     """
     Location class is a unit of space in the dungeon game. It serves as a descriptor for the world.
     """
@@ -64,6 +64,14 @@ class Location:
     def __init__(self):
         self._description = None
         self._neighbours = {direction.value: None for direction in Direction}
+
+    @property
+    def name(self) -> str:
+        return self._name
+    
+    @name.setter
+    def name(self, new_name) -> None:
+        self._name = new_name
 
     @property
     def description(self) -> str:
@@ -74,15 +82,23 @@ class Location:
         self._description = new_description
 
     @property
-    def neighbours(self) -> Dict[Position, "Location"]:
+    def description(self) -> str:
+        return self._description
+
+    @description.setter
+    def description(self, new_description) -> None:
+        self._description = new_description
+
+    @property
+    def neighbours(self) -> Dict[Position, "Room"]:
         return self._neighbours
 
     @staticmethod
     def connect(
-        location1: "Location", location2: "Location", direction: Position
+        location1: "Room", location2: "Room", direction: Position
     ) -> None:
         location1.neighbours[direction] = location2
         location2.neighbours[Direction.opposite(direction)] = location1
 
 
-Grid = List[List[Optional[Location]]]
+Grid = List[List[Optional[Room]]]
