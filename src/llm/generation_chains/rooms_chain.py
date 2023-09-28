@@ -43,7 +43,7 @@ class RoomsChain:
         self._rooms_layout = rooms_layout
         self._rows, self._columns = len(rooms_layout), len(rooms_layout[0])
 
-        self._suspect_prompt = PromptTemplate.from_template(
+        self._suspect_room_prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
             You are a crime storyteller.
@@ -62,7 +62,7 @@ class RoomsChain:
             """
         )
 
-        self._victim_prompt = PromptTemplate.from_template(
+        self._victim_room_prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
             You are a crime storyteller.
@@ -84,7 +84,7 @@ class RoomsChain:
     def create(self, theme, victim, suspects):
         # generate description for the starting room, assumes square rooms layout
         middle_row, middle_col = self._rows // 2, self._columns // 2
-        start_story = self.generate_room(self._victim_prompt, theme, json.dumps(victim))
+        start_story = self.generate_room(self._victim_room_prompt, theme, json.dumps(victim))
         start_story.update({"row": middle_row, "col": middle_col})
 
         # contains final description of rooms
@@ -102,7 +102,7 @@ class RoomsChain:
             row, col = current_room
 
             current_room_story = self.generate_room(
-                self._suspect_prompt, theme, json.dumps(not_selected_suspects.popleft())
+                self._suspect_room_prompt, theme, json.dumps(not_selected_suspects.popleft())
             )
             current_room_story.update({"row": row, "col": col})
             rooms_data.append(current_room_story)
