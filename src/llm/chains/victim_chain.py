@@ -24,7 +24,7 @@ class VictimChain:
             ],
         }
 
-        self._one_shot_example = {
+        self._example = {
             "theme": "Library of Alexandria, 340 BC, crazy librarian",
             "victim": {
                 "name": "Archibald Ptolemy",
@@ -40,7 +40,6 @@ class VictimChain:
             <s>[INST] <<SYS>>
             
             You are a crime storyteller. Always output answer as JSON using this {scheme}.
-            Avoid outputting anything else than the JSON answer.
                         
             <<SYS>>
 

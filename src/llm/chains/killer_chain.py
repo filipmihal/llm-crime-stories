@@ -39,17 +39,16 @@ class KillerChain:
             <s>[INST] <<SYS>>
             
             You are a crime storyteller. Always output answer as JSON using this {scheme}.
-            Avoid outputting anything else than the JSON answer.
             
             <<SYS>>
 
-            Given a theme: {theme_example} and victim information: {victim_example}, describe a killer. Avoid nicknames.
+            Given a theme: {theme_example} and victim information: {victim_example}, describe the killer. Avoid nicknames.
             killer:
             [/INST]
             {killer_example}</s><s>
             
             [INST]
-            Given a theme: {theme} and victim information: {victim}, describe a killer. Avoid nicknames.
+            Given a theme: {theme} and victim information: {victim}, describe the killer. Avoid nicknames.
             killer:
             [/INST]
             """
