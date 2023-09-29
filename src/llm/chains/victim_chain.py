@@ -38,8 +38,8 @@ class VictimChain:
             
             You are a crime storyteller. Always output answer as JSON using this {scheme}.
             Avoid outputting anything else than the JSON answer.
-            Stay consistent with use of quotation marks, use double quotation marks.
-            
+            When providing additional information (noun phrases), use single quotation marks.
+                        
             <<SYS>>
 
             Given a theme: "Library of Alexandria, 340 BC, crazy librarian" describe a victim of the story.
