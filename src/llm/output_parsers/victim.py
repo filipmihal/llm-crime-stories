@@ -20,12 +20,10 @@ class VictimJsonOutputParser(BaseOutputParser):
             obj = json.loads(text)
             obj = {k.strip():v.strip() for k, v in obj.items()}
             
-            obj = VictimSchema().load(obj)
-            print(obj)
-            return obj
+            return VictimSchema().load(obj)
         except JSONDecodeError as decode_err:
             print(decode_err)
+            return None
         except ValidationError as err:
             print(err.messages)
-        finally:
             return None

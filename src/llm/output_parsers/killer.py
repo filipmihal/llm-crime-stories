@@ -23,7 +23,7 @@ class KillerJsonOutputParser(BaseOutputParser):
             return KillerSchema().load(obj)
         except JSONDecodeError as decode_err:
             print(decode_err)
+            return None
         except ValidationError as err:
             print(err.messages)
-        finally:
             return None
