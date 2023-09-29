@@ -25,12 +25,9 @@ class StoryGenerator:
 
         victim = VictimChain(self._llm).create(theme)
         killer = KillerChain(self._llm).create(theme, victim)
-        
-        suspects_chain = SuspectChain(self._llm)
-        suspects = [suspects_chain.create(theme, victim) for _ in range(2)]
-
+        suspects = SuspectChain(self._llm).create(theme, victim)
         rooms, suspects_positions = RoomsChain(self._llm, self._rooms).create(
-            theme, victim, suspects
+            theme, victim, suspects + [killer]
         )
 
         try:

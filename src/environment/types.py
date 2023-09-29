@@ -96,13 +96,15 @@ class Room:
         start_room.neighbours[direction] = end_room
         end_room.neighbours[Direction.opposite(direction)] = start_room
 
+
 Grid = List[List[Optional[Room]]]
+
 
 class CrimeSceneMap:
     """
     Represents a map grid of rooms. Encompasses related information.
     """
-    
+
     def __init__(self, number_of_rooms: int):
         self._number_of_rooms = number_of_rooms
         self._rooms = [
@@ -131,3 +133,10 @@ class CrimeSceneMap:
 
     def add_room_to_position(self, row: int, col: int, room: Room) -> None:
         self._rooms[row][col] = room
+
+    def get_neighbours(self, row: int, col: int) -> List[Tuple[int, int]]:
+        return [
+            (row + x, col + y)
+            for x, y in [(0, 1), (1, 0), (-1, 0), (0, -1)]
+            if 0 <= row + x < self._rows and 0 <= col + y < self._columns and self._rooms[row + x][col + y]
+        ]

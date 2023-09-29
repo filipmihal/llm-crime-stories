@@ -1,34 +1,33 @@
+import json
+from json.decoder import JSONDecodeError
 from langchain.schema import BaseOutputParser
 from marshmallow import ValidationError
 import re
 from typing import Optional
-import yaml
 
 from llm.marshmallow.schemas.room import RoomSchema
 
-class RoomYamlOutputParser(BaseOutputParser):
-    """Parse the output of an LLM call to YAML."""
+class RoomJsonOutputParser(BaseOutputParser):
+    """
+    Parse the output of an LLM call of Room chain to JSON.
+    """
 
     def parse(self, text: str) -> Optional[RoomSchema]:
-        """Parse the output of an LLM call."""
-        match = (
-            re.search(r"- [rR]oom:[\s\S]*", text)
-            or re.search(r"[rR]oom:[\s\S]*", text)
-            or re.search(r"- [rR]]oom:[\s\S]*\n", text)
-            or re.search(r"[rR]oom:[\s\S]*\n", text)
-        )
-        group = match.group(0)
-
-        if group.startswith('- '):
-            group = group[2:]
-
-        if '`' in group:
-            group = re.search(r'([^`]+)`', group).group(1).strip()
-
-        obj = yaml.safe_load(group)
-        top_level_key = list(obj.keys())[0]
+        """
+        Parse the output of an LLM call.
+        """
         try:
-            return RoomSchema().load(obj[top_level_key])
+            obj = re.findall(r'\{[^{}]*\}', text)
+            obj = json.loads(obj[0])
+            obj = {k.strip():v for k, v in obj.items()}
+            
+            return RoomSchema().load(obj)
+        except JSONDecodeError as decode_err:
+            print(decode_err)
+            return None
         except ValidationError as err:
             print(err.messages)
+            return None
+        except IndexError as err:
+            print(err)
             return None
