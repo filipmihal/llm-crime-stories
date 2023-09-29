@@ -1,7 +1,7 @@
 import json
 from langchain.prompts import PromptTemplate
 
-from llm.output_parsers.killer import KillerYamlOutputParser
+from llm.output_parsers.killer import KillerJsonOutputParser
 
 
 class KillerChain:
@@ -44,19 +44,19 @@ class KillerChain:
             
             <<SYS>>
 
-            Given a theme: "Library of Alexandria, 340 BC, crazy librarian" and victim information: {victim_example} describe a killer.
+            Given a theme: "Library of Alexandria, 340 BC, crazy librarian" and victim information: {victim_example} describe a killer. Avoid nicknames.
             killer:
             [/INST]
             {killer_example}</s><s>
             
             [INST]
-            Given a theme: {theme} and victim information: {victim} describe a killer.
+            Given a theme: {theme} and victim information: {victim} describe a killer. Avoid nicknames.
             killer:
             [/INST]
             """
         )
 
-        self._chain = prompt | llm  # | KillerYamlOutputParser()
+        self._chain = prompt | llm | KillerJsonOutputParser()
 
     def create(self, theme, victim):
         return self._chain.invoke(
@@ -65,6 +65,6 @@ class KillerChain:
                 "scheme": json.dumps(self._json_schema),
                 "theme": theme,
                 "victim": json.dumps(victim),
-                "victim_example": json.dumps(self._one_shot_example["victim"])
+                "victim_example": json.dumps(self._one_shot_example["victim"]),
             }
         )

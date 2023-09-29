@@ -1,7 +1,7 @@
 import json
 from langchain.prompts import PromptTemplate
 
-from llm.output_parsers.victim import VictimYamlOutputParser
+from llm.output_parsers.victim import VictimJsonOutputParser
 
 
 class VictimChain:
@@ -56,7 +56,7 @@ class VictimChain:
             """
         )
 
-        self._chain = prompt | llm  # | VictimYamlOutputParser()
+        self._chain = prompt | llm | VictimJsonOutputParser()
 
     def create(self, theme):
         return self._chain.invoke(
