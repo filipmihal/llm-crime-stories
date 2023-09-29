@@ -1,7 +1,10 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields, validate, EXCLUDE
 
 
 class SuspectSchema(Schema):
+    class Meta:
+        unknown = EXCLUDE
+    
     name = fields.Str(required=True)
     age = fields.Integer(required=True, validate=validate.Range(min=0))
     occupation = fields.Str(required=True)
