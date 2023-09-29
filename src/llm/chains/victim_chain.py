@@ -29,7 +29,7 @@ class VictimChain:
             "age": 42,
             "occupation": "Head librarian",
             "murder_weapon": "fragile ancient scroll",
-            "death_description": "Found face down under pile of books with a broken quill pen lodged in his back, surrounded by scattered papyrus rolls."   
+            "death_description": "Found face down under pile of books with a broken quill pen lodged in his back, surrounded by scattered papyrus rolls.",
         }
 
         self._prompt = PromptTemplate.from_template(
@@ -53,7 +53,7 @@ class VictimChain:
             """
         )
 
-        self._chain = self._prompt | llm# | VictimYamlOutputParser()
+        self._chain = self._prompt | llm  # | VictimYamlOutputParser()
 
     def create(self, theme):
         return self._chain.invoke(
