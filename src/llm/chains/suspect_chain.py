@@ -35,11 +35,16 @@ class SuspectChain:
                     "occupation": "Junior Librarian",
                     "motive": "Cassandra felt threatened by Archibald's strict rules and constant criticism of her work. She may have sought revenge through this brutal act.",
                     "alibi": "Cassandra asserts she was searching for lost texts in the stacks during the homicide. Multiple patrons corroborate her presence near the scene around the estimated time of death.",
-                }
+                },
+                {
+                    "name": "Eudoxia",
+                    "age": 42,
+                    "occupation": "Librarian",
+                    "alibi": "On duty cataloging scrolls at the Library of Alexandria during the time of the murder",
+                    "motive": "Passionate about preserving knowledge, she had no motive to harm anyone at the library.",
+                },
             ],
-            "themes": [
-                ["Library of Alexandria", "340 BC", "crazy librarian"]
-            ],
+            "themes": [["Library of Alexandria", "340 BC", "crazy librarian"]],
             "victims": [
                 {
                     "name": "Archibald Ptolemy",
@@ -60,18 +65,18 @@ class SuspectChain:
             
             <<SYS>>
 
-            Given a theme: {theme_example}, an information about the victim: {victim_example}, describe a suspect that is not the killer. There are more suspects. Avoid nicknames.
-            suspect:
+            Given a theme: {theme_example}, an information about the victim: {victim_example}, describe 2 suspects that are not killers. Return an array of them. Avoid nicknames.
+            suspects:
             [/INST]
-            {suspect_example}</s><s>
+            {suspect_examples}</s><s>
             
             [INST]
-            Given a theme: {theme}, an information about the victim: {victim}, describe a suspect that is not the killer. There are more suspects. Avoid nicknames.
-            suspect:
+            Given a theme: {theme}, an information about the victim: {victim}, describe 2 suspects that are not killers. Return an array of them. Avoid nicknames.
+            suspects:
             [/INST]
             """
         )
-        
+
         self._chain = prompt | llm | SuspectJsonOutputParser()
 
     def create(self, theme, victim):
@@ -80,7 +85,7 @@ class SuspectChain:
                 "scheme": json.dumps(self._json_schema),
                 "theme_example": self._one_shot_example["themes"][0],
                 "victim_example": json.dumps(self._one_shot_example["victims"][0]),
-                "suspect_example": json.dumps(self._one_shot_example["suspects"][0]),
+                "suspect_examples": json.dumps(self._one_shot_example["suspects"]),
                 "theme": theme,
                 "victim": json.dumps(victim),
             }
