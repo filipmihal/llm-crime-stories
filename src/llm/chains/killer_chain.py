@@ -19,14 +19,23 @@ class KillerChain:
         }
 
         self._one_shot_example = {
-            "name": "Gaius",
-            "age": 40,
-            "occupation": "Crazy librarian",
-            "alibi": "Gaius has no alibi. He claims he was in his secret chamber, delving into forbidden texts. No one can vouch for his whereabouts.",
-            "motive": "Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.",
+            "killer": {
+                "name": "Gaius",
+                "age": 40,
+                "occupation": "Crazy librarian",
+                "alibi": "Gaius has no alibi. He claims he was in his secret chamber, delving into forbidden texts. No one can vouch for his whereabouts.",
+                "motive": "Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.",
+            },
+            "victim": {
+                "name": "Archibald Ptolemy",
+                "age": 35,
+                "occupation": "Head Librarian",
+                "murder_weapon": "Ancient scroll with poisoned ink",
+                "death_description": "Found dead in his office surrounded by stacks of books, face contorted in a mixture of fear and surprise, as if he had been reading a particularly gruesome text when struck down.",
+            },
         }
 
-        self._prompt = PromptTemplate.from_template(
+        prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
             
@@ -35,10 +44,10 @@ class KillerChain:
             
             <<SYS>>
 
-            Given a theme: "Library of Alexandria, 340 BC, crazy librarian" and victim information: "{'name': 'Archibald Ptolemy', 'age': 35, 'occupation': 'Head Librarian', 'murder_weapon': 'Ancient scroll with poisoned ink', 'death_description': 'Found dead in his office surrounded by stacks of books, face contorted in a mixture of fear and surprise, as if he had been reading a particularly gruesome text when struck down.'}" describe a killer.
+            Given a theme: "Library of Alexandria, 340 BC, crazy librarian" and victim information: {victim_example} describe a killer.
             killer:
             [/INST]
-            {one_shot_example}</s><s>
+            {killer_example}</s><s>
             
             [INST]
             Given a theme: {theme} and victim information: {victim} describe a killer.
@@ -47,14 +56,15 @@ class KillerChain:
             """
         )
 
-        self._chain = self._prompt | llm  # | KillerYamlOutputParser()
+        self._chain = prompt | llm  # | KillerYamlOutputParser()
 
     def create(self, theme, victim):
         return self._chain.invoke(
             {
-                "one_shot_example": json.dumps(self._one_shot_example),
-                "schema": json.dumps(self._json_schema),
+                "killer_example": json.dumps(self._one_shot_example["killer"]),
+                "scheme": json.dumps(self._json_schema),
                 "theme": theme,
                 "victim": json.dumps(victim),
+                "victim_example": json.dumpls(self._one_shot_example["victim"])
             }
         )

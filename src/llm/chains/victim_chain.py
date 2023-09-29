@@ -25,14 +25,17 @@ class VictimChain:
         }
 
         self._one_shot_example = {
-            "name": "Archibald Ptolemy",
-            "age": 42,
-            "occupation": "Head librarian",
-            "murder_weapon": "fragile ancient scroll",
-            "death_description": "Found face down under pile of books with a broken quill pen lodged in his back, surrounded by scattered papyrus rolls.",
+            "theme": "Library of Alexandria, 340 BC, crazy librarian",
+            "victim": {
+                "name": "Archibald Ptolemy",
+                "age": 42,
+                "occupation": "Head librarian",
+                "murder_weapon": "fragile ancient scroll",
+                "death_description": "Found face down under pile of books with a broken quill pen lodged in his back, surrounded by scattered papyrus rolls.",
+            }
         }
 
-        self._prompt = PromptTemplate.from_template(
+        prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
             
@@ -41,10 +44,10 @@ class VictimChain:
                         
             <<SYS>>
 
-            Given a theme: "Library of Alexandria, 340 BC, crazy librarian" describe a victim of the story. Avoid nicknames.
+            Given a theme: {theme_example}. describe a victim of the story. Avoid nicknames.
             victim:
             [/INST]
-            {one_shot_example}</s><s>
+            {victim_example}</s><s>
             
             [INST]
             Given a theme: {theme} describe a victim of the story. Avoid nicknames.
@@ -53,13 +56,14 @@ class VictimChain:
             """
         )
 
-        self._chain = self._prompt | llm  # | VictimYamlOutputParser()
+        self._chain = prompt | llm  # | VictimYamlOutputParser()
 
     def create(self, theme):
         return self._chain.invoke(
             {
-                "one_shot_example": json.dumps(self._one_shot_example),
                 "scheme": json.dumps(self._json_schema),
                 "theme": theme,
+                "theme_example": self._one_shot_example["theme"],
+                "victim_example": json.dumps(self._one_shot_example["victim"]),
             }
         )
