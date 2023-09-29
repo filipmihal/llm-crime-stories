@@ -8,13 +8,14 @@ class Game:
     Game contains the main game logic and the game state.
     """
 
-    def __init__(self, initial_game_state: GameState):
+    def __init__(self, initial_game_state: GameState, visualize: bool = True):
         self._game_state = initial_game_state
-
-    def play(self, instruction_text: str, visualize: bool = True) -> None:
+        self._visualize = visualize
+        
         if visualize:
             GridVisualizer.visualize(self._game_state)
-        
+
+    def play(self, instruction_text: str) -> None:       
         instructions = PlayerActionParser.parse_raw(instruction_text)
         for instruction in instructions:
             action = PlayerActionParser.parse(instruction)
@@ -23,6 +24,6 @@ class Game:
             else:
                 # TODO: maybe write something better here?
                 print("Invalid instruction: " + instruction)
-            if visualize:
+            if self._visualize:
                 print("------------------")
                 GridVisualizer.visualize(self._game_state)

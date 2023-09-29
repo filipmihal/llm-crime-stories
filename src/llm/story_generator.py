@@ -18,21 +18,16 @@ class StoryGenerator:
 
         self._rooms = rooms
 
-    def create_new_story(
-        self, number_of_suspects: int, theme: str, dummy: bool = False
-    ) -> StorySchema:
+    def create_new_story(self, theme: str, dummy: bool = False) -> StorySchema:
         if dummy:
             with open("./llm-dungeon-adventures/data/dummy.json", "r") as f:
                 return json.load(f)
 
         victim = VictimChain(self._llm).create(theme)
-        print(victim)
         killer = KillerChain(self._llm).create(theme, victim)
-        print(killer)
+        
         suspects_chain = SuspectChain(self._llm)
-        suspects = [
-            suspects_chain.create(theme, victim) for _ in range(number_of_suspects)
-        ]
+        suspects = [suspects_chain.create(theme, victim) for _ in range(2)]
 
         rooms, suspects_positions = RoomsChain(self._llm, self._rooms).create(
             theme, victim, suspects
