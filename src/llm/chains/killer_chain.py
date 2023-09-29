@@ -26,6 +26,7 @@ class KillerChain:
                 "alibi": "Gaius has no alibi. He claims he was in his secret chamber, delving into forbidden texts. No one can vouch for his whereabouts.",
                 "motive": "Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.",
             },
+            "theme": "Library of Alexandria, 340 BC, crazy librarian",
             "victim": {
                 "name": "Archibald Ptolemy",
                 "age": 35,
@@ -44,7 +45,7 @@ class KillerChain:
             
             <<SYS>>
 
-            Given a theme: "Library of Alexandria, 340 BC, crazy librarian" and victim information: {victim_example} describe a killer. Avoid nicknames.
+            Given a theme: {theme_example} and victim information: {victim_example} describe a killer. Avoid nicknames.
             killer:
             [/INST]
             {killer_example}</s><s>
@@ -64,6 +65,7 @@ class KillerChain:
                 "killer_example": json.dumps(self._one_shot_example["killer"]),
                 "scheme": json.dumps(self._json_schema),
                 "theme": theme,
+                "theme_example": self._one_shot_example["theme"],
                 "victim": json.dumps(victim),
                 "victim_example": json.dumps(self._one_shot_example["victim"]),
             }

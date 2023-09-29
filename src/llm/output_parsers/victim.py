@@ -1,14 +1,12 @@
 import json
 from langchain.schema import BaseOutputParser
 from marshmallow import ValidationError
-import re
 from typing import Optional
-import yaml
 
 from llm.marshmallow.schemas.victim import VictimSchema
 
 class VictimJsonOutputParser(BaseOutputParser):
-    """Parse the output of an LLM call of the Victim chain to YAML."""
+    """Parse the output of an LLM call of the Victim chain to JSON."""
 
     def parse(self, text: str) -> Optional[VictimSchema]:
         """Parse the output of an LLM call."""
