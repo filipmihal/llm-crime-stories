@@ -2,6 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 from langchain.schema import BaseOutputParser
 from marshmallow import ValidationError
+import re
 from typing import Optional
 
 from llm.marshmallow.schemas.victim import VictimSchema
