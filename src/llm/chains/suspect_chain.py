@@ -63,7 +63,7 @@ class SuspectChain:
         return self._chain.invoke(
             {
                 "scheme": json.dumps(self._json_schema),
-                "suspect_example": json.dumps(self._one_shot_example[""])
+                "suspect_example": json.dumps(self._one_shot_example["suspect"]),
                 "theme": theme,
                 "theme_example": self._one_shot_example["theme"],
                 "victim": json.dumps(victim),
