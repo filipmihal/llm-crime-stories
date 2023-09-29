@@ -16,7 +16,6 @@ class SuspectJsonOutputParser(BaseOutputParser):
         """
         Parse the output of an LLM call.
         """
-        print("suspect" + text)
         try:
             obj = json.loads(text)
             obj = {k.strip():v for k, v in obj.items()}
