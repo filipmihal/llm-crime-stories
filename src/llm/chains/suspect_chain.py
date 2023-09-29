@@ -65,13 +65,13 @@ class SuspectChain:
             
             <<SYS>>
 
-            Given a theme: {theme_example}, an information about the victim: {victim_example}, describe 2 suspects that are not killers. Return an array of them. Avoid nicknames.
+            Given a theme: {theme_example}, an information about the victim: {victim_example}, describe 2 suspects that are not killers. Return an array of them. Avoid missing required properties from the JSON schema. Avoid nicknames.
             suspects:
             [/INST]
             {suspect_examples}</s><s>
             
             [INST]
-            Given a theme: {theme}, an information about the victim: {victim}, describe 2 suspects that are not killers. Return an array of them. Avoid nicknames.
+            Given a theme: {theme}, an information about the victim: {victim}, describe 2 suspects that are not killers. Return an array of them. Avoid missing required properties from the JSON schema. Avoid nicknames.
             suspects:
             [/INST]
             """
