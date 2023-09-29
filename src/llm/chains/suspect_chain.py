@@ -7,15 +7,18 @@ from llm.output_parsers.suspect import SuspectJsonOutputParser
 class SuspectChain:
     def __init__(self, llm):
         self._json_schema = {
-            "type": "object",
-            "properties": {
-                "name": {"type": "string"},
-                "age": {"type": "number"},
-                "occupation": {"type": "string"},
-                "alibi": {"type": "string"},
-                "motive": {"type": "string"},
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "age": {"type": "number"},
+                    "occupation": {"type": "string"},
+                    "alibi": {"type": "string"},
+                    "motive": {"type": "string"},
+                },
+                "required": ["name", "age", "occupation", "alibi", "motive"],
             },
-            "required": ["name", "age", "occupation", "alibi", "motive"],
         }
 
         self._one_shot_example = {
