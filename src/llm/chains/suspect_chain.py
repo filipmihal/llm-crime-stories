@@ -59,8 +59,8 @@ class SuspectChain:
             """
             <s>[INST] <<SYS>>
             
-            You are a crime storyteller. Always output answer as JSON using this {scheme}.
-            Avoid outputting anything else than the JSON answer.
+            You are a crime storyteller. Always output answer as an array of JSON object of this scheme: {scheme}.
+            Avoid outputting anything else than the array of JSON objects.
             
             <<SYS>>
 
