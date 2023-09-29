@@ -7,18 +7,15 @@ from llm.output_parsers.suspect import SuspectJsonOutputParser
 class SuspectChain:
     def __init__(self, llm):
         self._json_schema = {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "name": {"type": "string"},
-                    "age": {"type": "number"},
-                    "occupation": {"type": "string"},
-                    "alibi": {"type": "string"},
-                    "motive": {"type": "string"},
-                },
-                "required": ["name", "age", "occupation", "alibi", "motive"],
+            "type": "object",
+            "properties": {
+                "name": {"type": "string"},
+                "age": {"type": "number"},
+                "occupation": {"type": "string"},
+                "alibi": {"type": "string"},
+                "motive": {"type": "string"},
             },
+            "required": ["name", "age", "occupation", "alibi", "motive"],
         }
 
         self._one_shot_example = {
@@ -55,7 +52,7 @@ class SuspectChain:
             },
         }
 
-        self._prompt = PromptTemplate.from_template(
+        prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
             
@@ -67,7 +64,10 @@ class SuspectChain:
             Given a theme: {theme_example}, victim information: {victim_example} and killer information: {killer_example}, describe 2 suspects that are not the killer. Avoid nicknames.
             suspects:
             [/INST]
-            {suspects_example}</s><s>
+            [
+                {suspects_example_fst},
+                {suspects_example_snd}
+            ]</s><s>
             
             [INST]
             Given a theme: {theme}, victim information: {victim} and killer information: {killer}, describe 2 suspect that are not the killer. Avoid nicknames.
@@ -76,27 +76,16 @@ class SuspectChain:
             """
         )
 
-        self._chain = self._prompt | llm | SuspectJsonOutputParser()
+        self._chain = prompt | llm | SuspectJsonOutputParser()
 
     def create(self, theme, victim, killer):
-        print(
-            self._prompt.format(
-                killer=json.dumps(killer),
-                killer_example=json.dumps(self._one_shot_example["killer"]),
-                scheme=json.dumps(self._json_schema),
-                suspects_example=json.dumps(self._one_shot_example["suspects"]),
-                theme=theme,
-                theme_example=self._one_shot_example["theme"],
-                victim=json.dumps(victim),
-                victim_example=json.dumps(self._one_shot_example["victim"]),
-            )
-        )
         return self._chain.invoke(
             {
                 "killer": json.dumps(killer),
                 "killer_example": json.dumps(self._one_shot_example["killer"]),
                 "scheme": json.dumps(self._json_schema),
-                "suspects_example": json.dumps(self._one_shot_example["suspects"]),
+                "suspects_example_fst": json.dumps(self._one_shot_example["suspects"][0]),
+                "suspects_example_snd": json.dumps(self._one_shot_example["suspects"][1]),
                 "theme": theme,
                 "theme_example": self._one_shot_example["theme"],
                 "victim": json.dumps(victim),
