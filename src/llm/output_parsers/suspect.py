@@ -22,5 +22,5 @@ class SuspectJsonOutputParser(BaseOutputParser):
             print(decode_err)
         except ValidationError as err:
             print(err.messages)
-        finally:    
+        finally:
             return None

@@ -6,6 +6,7 @@ from typing import Optional
 
 from llm.marshmallow.schemas.killer import KillerSchema
 
+
 class KillerJsonOutputParser(BaseOutputParser):
     """
     Parse the output of an LLM call of the Killer chain to JSON.
@@ -21,5 +22,5 @@ class KillerJsonOutputParser(BaseOutputParser):
             print(decode_err)
         except ValidationError as err:
             print(err.messages)
-        finally:    
+        finally:
             return None

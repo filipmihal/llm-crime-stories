@@ -6,6 +6,7 @@ from typing import Optional
 
 from llm.marshmallow.schemas.victim import VictimSchema
 
+
 class VictimJsonOutputParser(BaseOutputParser):
     """
     Parse the output of an LLM call of the Victim chain to JSON.
@@ -21,5 +22,5 @@ class VictimJsonOutputParser(BaseOutputParser):
             print(decode_err)
         except ValidationError as err:
             print(err.messages)
-        finally:    
+        finally:
             return None
