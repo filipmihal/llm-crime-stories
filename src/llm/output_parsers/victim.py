@@ -18,8 +18,8 @@ class VictimJsonOutputParser(BaseOutputParser):
         Parse the output of an LLM call.
         """
         try:
-            obj = re.find(r'\{[^{}]*\}', text)
-            obj = json.loads(obj)
+            obj = re.findall(r'\{[^{}]*\}', text)
+            obj = json.loads(obj[0])
             obj = {k.strip():v for k, v in obj.items()}
             
             return VictimSchema().load(obj)
@@ -28,4 +28,7 @@ class VictimJsonOutputParser(BaseOutputParser):
             return None
         except ValidationError as err:
             print(err.messages)
+            return None
+        except IndexError as err:
+            print(err)
             return None
