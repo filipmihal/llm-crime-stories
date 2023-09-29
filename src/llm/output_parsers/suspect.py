@@ -18,10 +18,10 @@ class SuspectJsonOutputParser(BaseOutputParser):
         """
         print(text)
         try:
-            obj = json.loads(text)
-            obj = {k.strip():v for k, v in obj.items()}
+            objs = json.loads(text)
+            objs = [{k.strip():v for k, v in o.items()} for o in objs]
             
-            return SuspectSchema().load(obj)
+            return [SuspectSchema().load(o) for o in objs]
         except JSONDecodeError as decode_err:
             print(decode_err)
             return None
