@@ -6,6 +6,8 @@ from llm.output_parsers.suspect import SuspectJsonOutputParser
 
 class SuspectChain:
     def __init__(self, llm):
+        self._llm = llm
+
         self._json_schema = {
             "type": "object",
             "properties": {
@@ -52,7 +54,7 @@ class SuspectChain:
             },
         }
 
-        prompt = PromptTemplate.from_template(
+        self._first_suspect_prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
             
@@ -61,31 +63,66 @@ class SuspectChain:
             
             <<SYS>>
 
-            Given a theme: {theme_example}, victim information: {victim_example} and killer information: {killer_example}, describe 2 suspects that are not the killer. Avoid nicknames.
-            suspects:
+            Given a theme: {theme_example}, an information about the victim: {victim_example}, and killer information: {killer_example}, describe a suspect that is not the killer. Avoid nicknames.
+            suspect:
             [/INST]
-            [
-                {suspects_example_fst},
-                {suspects_example_snd}
-            ]</s><s>
+            {suspect_example}</s><s>
             
             [INST]
-            Given a theme: {theme}, victim information: {victim} and killer information: {killer}, describe 2 suspect that are not the killer. Avoid nicknames.
-            suspects:
+            Given a theme: {theme}, an information about the victim: {victim}, and an information about the killer: {killer}, describe a suspect that is not the killer. Avoid nicknames.
+            suspect:
             [/INST]
             """
         )
 
-        self._chain = prompt | llm | SuspectJsonOutputParser()
+        self._second_suspect_prompt = PromptTemplate.from_template(
+            """
+            <s>[INST] <<SYS>>
+            
+            You are a crime storyteller. Always output answer as an array of JSON objects of this scheme: {scheme}.
+            Avoid outputting anything else than the array of JSON objects.
+            
+            <<SYS>>
 
-    def create(self, theme, victim, killer):
-        return self._chain.invoke(
+            Given a theme: {theme_example}, an information about the victim: {victim_example}, killer information: {killer_example}, and an information about the first suspect: {first_suspect_example}, describe a second suspect that is not the killer. Avoid nicknames.
+            suspect:
+            [/INST]
+            {second_suspect_example}</s><s>
+            
+            [INST]
+            Given a theme: {theme}, an information about the victim: {victim}, killer information: {killer}, and an information about the first suspect: {first_suspect}, describe a second suspect that is not the killer. Avoid nicknames.
+            suspect:
+            [/INST]
+            """
+        )
+
+    def create_first_suspect(self, theme, victim, killer):
+        chain = self._first_suspect_prompt | self._llm | SuspectJsonOutputParser()
+
+        return chain.invoke(
             {
                 "killer": json.dumps(killer),
                 "killer_example": json.dumps(self._one_shot_example["killer"]),
                 "scheme": json.dumps(self._json_schema),
-                "suspects_example_fst": json.dumps(self._one_shot_example["suspects"][0]),
-                "suspects_example_snd": json.dumps(self._one_shot_example["suspects"][1]),
+                "suspect_example": json.dumps(self._one_shot_example["suspects"][0]),
+                "theme": theme,
+                "theme_example": self._one_shot_example["theme"],
+                "victim": json.dumps(victim),
+                "victim_example": json.dumps(self._one_shot_example["victim"]),
+            }
+        )
+
+    def create_second_suspect(self, theme, victim, killer, first_suspect):
+        chain = self._second_suspect_prompt | self._llm | SuspectJsonOutputParser()
+
+        return chain.invoke(
+            {
+                "killer": json.dumps(killer),
+                "killer_example": json.dumps(self._one_shot_example["killer"]),
+                "scheme": json.dumps(self._json_schema),
+                "first_suspect": json.dumps(first_suspect),
+                "first_suspect_example": json.dumps(self._one_shot_example["suspects"][0]),
+                "second_suspect_example": json.dumps(self._one_shot_example["suspects"][1]),
                 "theme": theme,
                 "theme_example": self._one_shot_example["theme"],
                 "victim": json.dumps(victim),
