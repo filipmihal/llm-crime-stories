@@ -45,13 +45,13 @@ class KillerChain:
             
             <<SYS>>
 
-            Given a theme: {theme_example} and victim information: {victim_example} describe a killer. Avoid nicknames.
+            Given a theme: {theme_example} and victim information: {victim_example}, describe a killer. Avoid nicknames.
             killer:
             [/INST]
             {killer_example}</s><s>
             
             [INST]
-            Given a theme: {theme} and victim information: {victim} describe a killer. Avoid nicknames.
+            Given a theme: {theme} and victim information: {victim}, describe a killer. Avoid nicknames.
             killer:
             [/INST]
             """

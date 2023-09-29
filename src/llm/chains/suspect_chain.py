@@ -19,13 +19,29 @@ class SuspectChain:
         }
 
         self._one_shot_example = {
-            "suspect": {
-                "name": "Lucius",
-                "age": 35,
-                "occupation": "Librarian's Assistant",
-                "alibi": "Lucius claims he was organizing scrolls in the library's main hall at the time of the murder. Several witnesses saw him there throughout the evening.",
-                "motive": "Lucius had a longstanding feud with Drusilla, who constantly criticized his work and suggested he was not fit for his role. He might have wanted to silence her.",
+            "killer": {
+                "name": "Gaius",
+                "age": 40,
+                "occupation": "Crazy librarian",
+                "alibi": "Gaius has no alibi. He claims he was in his secret chamber, delving into forbidden texts. No one can vouch for his whereabouts.",
+                "motive": "Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.",
             },
+            "suspects": [
+                {
+                    "name": "Lucius",
+                    "age": 35,
+                    "occupation": "Librarian's Assistant",
+                    "alibi": "Lucius claims he was organizing scrolls in the library's main hall at the time of the murder. Several witnesses saw him there throughout the evening.",
+                    "motive": "Lucius had a longstanding feud with Drusilla, who constantly criticized his work and suggested he was not fit for his role. He might have wanted to silence her.",
+                },
+                {
+                    "name": "Cassandra",
+                    "age": 28,
+                    "occupation": "Junior Librarian",
+                    "motive": "Cassandra felt threatened by Archibald's strict rules and constant criticism of her work. She may have sought revenge through this brutal act.",
+                    "alibi": "Cassandra asserts she was searching for lost texts in the stacks during the homicide. Multiple patrons corroborate her presence near the scene around the estimated time of death.",
+                },
+            ],
             "theme": "Library of Alexandria, 340 BC, crazy librarian",
             "victim": {
                 "name": "Archibald Ptolemy",
@@ -45,25 +61,27 @@ class SuspectChain:
             
             <<SYS>>
 
-            Given a theme: {theme_example} and victim information: {victim_example} describe a suspect that is not a killer. Avoid nicknames.
-            suspect:
+            Given a theme: {theme_example}, victim information: {victim_example} and killer information: {killer_example}, describe 2 suspects that are not the killer. Avoid nicknames.
+            suspects:
             [/INST]
-            {suspect_example}</s><s>
+            {suspects_example}</s><s>
             
             [INST]
-            Given a theme: {theme} and victim information: {victim} describe a suspect that is not a killer. Avoid nicknames.
-            suspect:
+            Given a theme: {theme}, victim information: {victim} and killer information: {killer}, describe 2 suspect that are not the killer. Avoid nicknames.
+            suspects:
             [/INST]
             """
         )
 
         self._chain = prompt | llm | SuspectJsonOutputParser()
 
-    def create(self, theme, victim):
+    def create(self, theme, victim, killer):
         return self._chain.invoke(
             {
+                "killer": json.dumps(killer),
+                "killer_example": json.dumps(self._one_shot_example["killer"]),
                 "scheme": json.dumps(self._json_schema),
-                "suspect_example": json.dumps(self._one_shot_example["suspect"]),
+                "suspects_example": json.dumps(self._one_shot_example["suspects"]),
                 "theme": theme,
                 "theme_example": self._one_shot_example["theme"],
                 "victim": json.dumps(victim),
