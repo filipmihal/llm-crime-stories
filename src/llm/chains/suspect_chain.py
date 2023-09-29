@@ -21,13 +21,22 @@ class SuspectChain:
         }
 
         self._one_shot_example = {
-            "killer": {
-                "name": "Gaius",
-                "age": 40,
-                "occupation": "Crazy librarian",
-                "alibi": "Gaius has no alibi. He claims he was in his secret chamber, delving into forbidden texts. No one can vouch for his whereabouts.",
-                "motive": "Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.",
-            },
+            "killers": [
+                {
+                    "name": "Gaius",
+                    "age": 40,
+                    "occupation": "Crazy librarian",
+                    "alibi": "Gaius has no alibi. He claims he was in his secret chamber, delving into forbidden texts. No one can vouch for his whereabouts.",
+                    "motive": "Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.",
+                },
+                {
+                    "name": "Daisy Devereaux",
+                    "age": 28,
+                    "occupation": "Flapper girl at The Hidden Flask",
+                    "alibi": "Daisy swears she was out on a date with her beau, Jack, at the time of the murder. She remembers returning to the speakeasy around midnight and finding Elizabeth already deceased. Daisy is known for her flirtatious nature and love of attention, but she denies any involvement in the crime.",
+                    "motive": "Daisy is full of hatred towards everything humane. If she could, she would destroy all humanity.",
+                },
+            ],
             "suspects": [
                 {
                     "name": "Lucius",
@@ -43,15 +52,41 @@ class SuspectChain:
                     "motive": "Cassandra felt threatened by Archibald's strict rules and constant criticism of her work. She may have sought revenge through this brutal act.",
                     "alibi": "Cassandra asserts she was searching for lost texts in the stacks during the homicide. Multiple patrons corroborate her presence near the scene around the estimated time of death.",
                 },
+                {
+                    "name": "Eudoxia",
+                    "age": 42,
+                    "occupation": "Librarian",
+                    "alibi": "On duty cataloging scrolls at the Library of Alexandria during the time of the murder",
+                    "motive": "Passionate about preserving knowledge, she had no motive to harm anyone at the library.",
+                },
+                {
+                    "name": "Josephine Malone",
+                    "age": 34,
+                    "occupation": "Bootlegger",
+                    "alibi": "She was delivering a shipment of illegal whiskey to the Speakeasy at the time of the murder.",
+                    "motive": "Josephine had a thriving bootlegging business and had no reason to harm anyone at the speakeasy; she needed their business for her operations.",
+                },
             ],
-            "theme": "Library of Alexandria, 340 BC, crazy librarian",
-            "victim": {
-                "name": "Archibald Ptolemy",
-                "age": 35,
-                "occupation": "Head Librarian",
-                "murder_weapon": "Ancient scroll with poisoned ink",
-                "death_description": "Found dead in his office surrounded by stacks of books, face contorted in a mixture of fear and surprise, as if he had been reading a particularly gruesome text when struck down.",
-            },
+            "themes": [
+                ["Library of Alexandria", "340 BC", "crazy librarian"],
+                ["Prohibition Era", "Speakeasy", "Bootlegger"],
+            ],
+            "victims": [
+                {
+                    "name": "Archibald Ptolemy",
+                    "age": 35,
+                    "occupation": "Head Librarian",
+                    "murder_weapon": "Ancient scroll with poisoned ink",
+                    "death_description": "Found dead in his office surrounded by stacks of books, face contorted in a mixture of fear and surprise, as if he had been reading a particularly gruesome text when struck down.",
+                },
+                {
+                    "name": "Porchikoot Lemanski",
+                    "age": 23,
+                    "occupation": "Policeman",
+                    "murder_weapon": "bottle",
+                    "death_description": "His body was found in the middle of a living room of his own appartment. Lots of bottle glass around him. Massive amounts of blood.",
+                },
+            ],
         }
 
         self._first_suspect_prompt = PromptTemplate.from_template(
@@ -63,10 +98,15 @@ class SuspectChain:
             
             <<SYS>>
 
-            Given a theme: {theme_example}, an information about the victim: {victim_example}, and killer information: {killer_example}, describe a suspect that is not the killer. Avoid nicknames.
+            Given a theme: {theme_example1}, an information about the victim: {victim_example1}, and killer information: {killer_example1}, describe a suspect that is not the killer. Avoid nicknames.
             suspect:
             [/INST]
-            {suspect_example}</s><s>
+            {suspect_example1}</s><s>
+            
+            Given a theme: {theme_example2}, an information about the victim: {victim_example2}, and killer information: {killer_example2}, describe a suspect that is not the killer. Avoid nicknames.
+            suspect:
+            [/INST]
+            {suspect_example2}</s><s>
             
             [INST]
             Given a theme: {theme}, an information about the victim: {victim}, and an information about the killer: {killer}, describe a suspect that is not the killer. Avoid nicknames.
@@ -84,13 +124,18 @@ class SuspectChain:
             
             <<SYS>>
 
-            Given a theme: {theme_example}, an information about the victim: {victim_example}, killer information: {killer_example}, and an information about the first suspect: {first_suspect_example}, describe the second suspect that is not the killer. Avoid nicknames.
+            Given a theme: {theme_example1}, an information about the victim: {victim_example1}, about the killer: {killer_example1} and about the first suspect: {first_suspect_example1} describe the second suspect that is not the killer. Avoid nicknames.
             suspect:
             [/INST]
-            {second_suspect_example}</s><s>
+            {second_suspect_example1}</s><s>
             
+            Given a theme: {theme_example2}, an information about the victim: {victim_example2}, about the killer: {killer_example2}, and about the first suspect: {first_suspect_example2} describe the second suspect that is not the killer. Avoid nicknames.
+            suspect:
+            [/INST]
+            {second_suspect_example2}</s><s>
+
             [INST]
-            Given a theme: {theme}, an information about the victim: {victim}, killer information: {killer}, and an information about the first suspect: {first_suspect}, describe the second suspect that is not the killer. Avoid nicknames.
+            Given a theme: {theme}, an information about the victim: {victim}, about the killer: {killer}, and about the first suspect: {first_suspect}, describe the second suspect that is not the killer. Avoid nicknames.
             suspect:
             [/INST]
             """
@@ -101,14 +146,18 @@ class SuspectChain:
 
         return chain.invoke(
             {
-                "killer": json.dumps(killer),
-                "killer_example": json.dumps(self._one_shot_example["killer"]),
                 "scheme": json.dumps(self._json_schema),
-                "suspect_example": json.dumps(self._one_shot_example["suspects"][0]),
+                "theme_example1": self._one_shot_example["themes"][0],
+                "theme_example2": self._one_shot_example["themes"][1],
+                "victim_example1": json.dumps(self._one_shot_example["victims"][0]),
+                "victim_example2": json.dumps(self._one_shot_example["victims"][1]),
+                "killer_example1": json.dumps(self._one_shot_example["killers"][0]),
+                "killer_example2": json.dumps(self._one_shot_example["killers"][1]),
+                "suspect_example1": json.dumps(self._one_shot_example["suspects"][0]),
+                "suspect_example2": json.dumps(self._one_shot_example["suspects"][1]),
+                "killer": json.dumps(killer),
                 "theme": theme,
-                "theme_example": self._one_shot_example["theme"],
                 "victim": json.dumps(victim),
-                "victim_example": json.dumps(self._one_shot_example["victim"]),
             }
         )
 
@@ -117,15 +166,28 @@ class SuspectChain:
 
         return chain.invoke(
             {
-                "killer": json.dumps(killer),
-                "killer_example": json.dumps(self._one_shot_example["killer"]),
                 "scheme": json.dumps(self._json_schema),
-                "first_suspect": json.dumps(first_suspect),
-                "first_suspect_example": json.dumps(self._one_shot_example["suspects"][0]),
-                "second_suspect_example": json.dumps(self._one_shot_example["suspects"][1]),
+                "theme_example1": self._one_shot_example["themes"][0],
+                "theme_example2": self._one_shot_example["themes"][1],
+                "victim_example1": json.dumps(self._one_shot_example["victims"][0]),
+                "victim_example2": json.dumps(self._one_shot_example["victims"][1]),
+                "killer_example1": json.dumps(self._one_shot_example["killers"][0]),
+                "killer_example2": json.dumps(self._one_shot_example["killers"][1]),
+                "first_suspect_example1": json.dumps(
+                    self._one_shot_example["suspects"][2]
+                ),
+                "first_suspect_example2": json.dumps(
+                    self._one_shot_example["suspects"][3]
+                ),
+                "second_suspect_example1": json.dumps(
+                    self._one_shot_example["suspects"][0]
+                ),
+                "second_suspect_example2": json.dumps(
+                    self._one_shot_example["suspects"][1]
+                ),
+                "killer": json.dumps(killer),
                 "theme": theme,
-                "theme_example": self._one_shot_example["theme"],
                 "victim": json.dumps(victim),
-                "victim_example": json.dumps(self._one_shot_example["victim"]),
+                "first_suspect": json.dumps(first_suspect),
             }
         )
