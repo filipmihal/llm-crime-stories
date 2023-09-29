@@ -7,23 +7,25 @@ class VictimChain:
         self._prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
+            
             You are a crime storyteller.
+            
             <<SYS>>
 
-            Given a theme create a victim in a fictional crime story. Victim is described by its name, age, occupation, murder weapon and death description.
-            An example is below. Note that output only created victim converted to YAML where all properties are on the same level.
-            
-            Example
-            Question: Give the output for the following theme: hospital, hunting.
-            Answer: 
+            Given a theme: "Library of Alexandria, 340 BC, crazy librarian" describe a victim of the story.
             victim:
-              name: "Alicia Williams"
-              age: 25
-              occupation: "nurse"
-              murder_weapon: "hunter's knife"
-              death_description: "Body lying in blood on the kitchen's floor, stabbed 36 times in the body area" [/INST]
+            [/INST]
+            name: "Archibald Ptolemy"
+            age: 42
+            occupation: "Head librarian"
+            murder_weapon: "fragile ancient scroll"
+            death_description: >
+                Found face down under pile of books with a broken quill pen lodged in his back, surrounded by scattered papyrus rolls.</s><s>
             
-            Give the output for the following theme: {theme}
+            [INST]
+            Given a theme: {theme} describe a victim of the story.
+            victim:
+            [/INST]
             """
         )
 
