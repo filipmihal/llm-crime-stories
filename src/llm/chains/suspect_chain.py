@@ -66,7 +66,7 @@ class SuspectChain:
             {suspect_example}</s><s>
             
             [INST]
-            Given a theme: {theme}, an information about the victim: {victim}, and an information about the killer: {killer}, describe a suspect that is not the killer. There are more suspects. Avoid nicknames.
+            Given a theme: {theme}, an information about the victim: {victim}, describe a suspect that is not the killer. There are more suspects. Avoid nicknames.
             suspect:
             [/INST]
             """
