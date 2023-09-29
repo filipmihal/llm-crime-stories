@@ -17,7 +17,8 @@ class VictimJsonOutputParser(BaseOutputParser):
         Parse the output of an LLM call.
         """
         try:
-            obj = json.loads(text)
+            obj = re.find(r'\{[^{}]*\}', text)
+            obj = json.loads(obj)
             obj = {k.strip():v for k, v in obj.items()}
             
             return VictimSchema().load(obj)

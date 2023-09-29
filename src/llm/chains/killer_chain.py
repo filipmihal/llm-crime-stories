@@ -13,9 +13,8 @@ class KillerChain:
                 "age": {"type": "number"},
                 "occupation": {"type": "string"},
                 "alibi": {"type": "string"},
-                "motive": {"type": "string"},
             },
-            "required": ["name", "age", "occupation", "alibi", "motive"],
+            "required": ["name", "age", "occupation", "alibi"],
         }
 
         self._one_shot_example = {
@@ -24,7 +23,6 @@ class KillerChain:
                 "age": 40,
                 "occupation": "Crazy librarian",
                 "alibi": "Gaius has no alibi. He claims he was in his secret chamber, delving into forbidden texts. No one can vouch for his whereabouts.",
-                "motive": "Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.",
             },
             "theme": "Library of Alexandria, 340 BC, crazy librarian",
             "victim": {

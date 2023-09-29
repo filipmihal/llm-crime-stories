@@ -13,9 +13,8 @@ class SuspectChain:
                 "age": {"type": "number"},
                 "occupation": {"type": "string"},
                 "alibi": {"type": "string"},
-                "motive": {"type": "string"},
             },
-            "required": ["name", "age", "occupation", "alibi", "motive"],
+            "required": ["name", "age", "occupation", "alibi"],
         }
 
         self._one_shot_example = {
@@ -25,7 +24,6 @@ class SuspectChain:
                     "age": 40,
                     "occupation": "Crazy librarian",
                     "alibi": "Gaius has no alibi. He claims he was in his secret chamber, delving into forbidden texts. No one can vouch for his whereabouts.",
-                    "motive": "Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.",
                 }
             ],
             "suspects": [
@@ -33,7 +31,6 @@ class SuspectChain:
                     "name": "Cassandra",
                     "age": 28,
                     "occupation": "Junior Librarian",
-                    "motive": "Cassandra felt threatened by Archibald's strict rules and constant criticism of her work. She may have sought revenge through this brutal act.",
                     "alibi": "Cassandra asserts she was searching for lost texts in the stacks during the homicide. Multiple patrons corroborate her presence near the scene around the estimated time of death.",
                 },
                 {
@@ -41,7 +38,6 @@ class SuspectChain:
                     "age": 42,
                     "occupation": "Librarian",
                     "alibi": "On duty cataloging scrolls at the Library of Alexandria during the time of the murder",
-                    "motive": "Passionate about preserving knowledge, she had no motive to harm anyone at the library.",
                 },
             ],
             "themes": [["Library of Alexandria", "340 BC", "crazy librarian"]],
@@ -61,7 +57,7 @@ class SuspectChain:
             <s>[INST] <<SYS>>
             
             You are a crime storyteller. Always output your answer in JSON using this scheme: {scheme}.
-            Never forget required property. Avoid outputting anything else.
+            Avoid outputting anything else than the JSON answer.
             
             <<SYS>>
             Generate 2 suspects that are not killers of this victim: {victim_example}. Theme of the story is: {theme_example}. Avoid using nicknames.

@@ -2,6 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 from langchain.schema import BaseOutputParser
 from marshmallow import ValidationError
+import re
 from typing import Optional
 
 from llm.marshmallow.schemas.killer import KillerSchema
@@ -17,7 +18,8 @@ class KillerJsonOutputParser(BaseOutputParser):
         Parse the output of an LLM call.
         """
         try:
-            obj = json.loads(text)
+            obj = re.find(r'\{[^{}]*\}', text)
+            obj = json.loads(obj)
             obj = {k.strip():v for k, v in obj.items()}
             
             return KillerSchema().load(obj)
