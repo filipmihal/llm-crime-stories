@@ -16,6 +16,7 @@ class VictimJsonOutputParser(BaseOutputParser):
         """
         Parse the output of an LLM call.
         """
+        print("victim" + text)
         try:
             return VictimSchema().load(json.loads(text))
         except JSONDecodeError as decode_err:

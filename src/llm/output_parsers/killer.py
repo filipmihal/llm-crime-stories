@@ -16,6 +16,7 @@ class KillerJsonOutputParser(BaseOutputParser):
         """
         Parse the output of an LLM call.
         """
+        print("killer" + text)
         try:
             return KillerSchema().load(json.loads(text))
         except JSONDecodeError as decode_err:
