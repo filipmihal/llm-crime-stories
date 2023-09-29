@@ -2,8 +2,7 @@ import json
 from langchain.llms import HuggingFacePipeline
 from marshmallow import ValidationError
 
-from environment.types import Grid
-from llm.llama import Llama
+from environment.types import CrimeSceneMap
 from llm.chains.killer_chain import KillerChain
 from llm.chains.rooms_chain import RoomsChain
 from llm.chains.suspect_chain import SuspectChain
@@ -12,11 +11,9 @@ from llm.marshmallow.schemas.story import StorySchema
 
 
 class StoryGenerator:
-    def __init__(self, rooms: Grid, llm=None) -> None:
-        llama_pipeline = Llama().pipeline if not llm else llm.pipeline
-        self._llm = HuggingFacePipeline(pipeline=llama_pipeline)
-
-        self._rooms = rooms
+    def __init__(self, crime_scene_map: CrimeSceneMap, llm_pipeline) -> None:
+        self._crime_scene_map = crime_scene_map
+        self._llm = HuggingFacePipeline(pipeline=llm_pipeline)
 
     def create_new_story(self, theme: str, dummy: bool = False) -> StorySchema:
         if dummy:
@@ -26,7 +23,7 @@ class StoryGenerator:
         victim = VictimChain(self._llm).create(theme)
         killer = KillerChain(self._llm).create(theme, victim)
         suspects = SuspectChain(self._llm).create(theme, victim)
-        rooms, suspects_positions = RoomsChain(self._llm, self._rooms).create(
+        rooms, suspects_positions = RoomsChain(self._llm, self._crime_scene_map).create(
             theme, victim, suspects + [killer]
         )
 
