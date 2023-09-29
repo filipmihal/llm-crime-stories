@@ -2,6 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 from langchain.schema import BaseOutputParser
 from marshmallow import ValidationError
+import re
 from typing import Optional
 
 from llm.marshmallow.schemas.suspect import SuspectSchema
@@ -18,7 +19,9 @@ class SuspectJsonOutputParser(BaseOutputParser):
         """
         print(text)
         try:
-            objs = json.loads(text)
+            # parse jsons dicts from the raw string
+            objs = re.findall(r'\{[^{}]*\}', text)
+            objs = [json.loads(o) for o in objs]
             objs = [{k.strip():v for k, v in o.items()} for o in objs]
             
             return [SuspectSchema().load(o) for o in objs]
