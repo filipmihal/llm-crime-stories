@@ -26,7 +26,7 @@ class KillerChain:
             "motive": "Gaius had become increasingly obsessed with ancient and forbidden knowledge. He believed that by eliminating anyone who questioned him, he could protect the library's secrets.",
         }
 
-        self._killer_prompt = PromptTemplate.from_template(
+        self._prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
             
@@ -47,7 +47,7 @@ class KillerChain:
             """
         )
 
-        self._chain = self._killer_prompt | llm  # | KillerYamlOutputParser()
+        self._chain = self._prompt | llm  # | KillerYamlOutputParser()
 
     def create(self, theme, victim):
         return self._chain.invoke(
@@ -55,6 +55,6 @@ class KillerChain:
                 "one_shot_example": json.dumps(self._one_shot_example),
                 "schema": json.dumps(self._json_schema),
                 "theme": theme,
-                "victim": victim,
+                "victim": json.dumps(victim),
             }
         )
