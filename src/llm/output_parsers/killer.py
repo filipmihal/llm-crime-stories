@@ -16,7 +16,6 @@ class KillerJsonOutputParser(BaseOutputParser):
         """
         Parse the output of an LLM call.
         """
-        print("killer" + text)
         try:
             obj = json.loads(text)
             obj = {k.strip():v.strip() for k, v in obj.items()}
