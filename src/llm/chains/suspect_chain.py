@@ -58,8 +58,8 @@ class SuspectChain:
             """
             <s>[INST] <<SYS>>
             
-            You are a crime storyteller. Always output answer as an array of JSON objects of this scheme: {scheme}.
-            Avoid outputting anything else than the array of JSON objects.
+            You are a crime storyteller. Always output answer as JSON using this {scheme}.
+            Avoid outputting anything else than the JSON answer.
             
             <<SYS>>
 
@@ -79,18 +79,18 @@ class SuspectChain:
             """
             <s>[INST] <<SYS>>
             
-            You are a crime storyteller. Always output answer as an array of JSON objects of this scheme: {scheme}.
-            Avoid outputting anything else than the array of JSON objects.
+            You are a crime storyteller. Always output answer as JSON using this {scheme}.
+            Avoid outputting anything else than the JSON answer.
             
             <<SYS>>
 
-            Given a theme: {theme_example}, an information about the victim: {victim_example}, killer information: {killer_example}, and an information about the first suspect: {first_suspect_example}, describe a second suspect that is not the killer. Avoid nicknames.
+            Given a theme: {theme_example}, an information about the victim: {victim_example}, killer information: {killer_example}, and an information about the first suspect: {first_suspect_example}, describe the second suspect that is not the killer. Avoid nicknames.
             suspect:
             [/INST]
             {second_suspect_example}</s><s>
             
             [INST]
-            Given a theme: {theme}, an information about the victim: {victim}, killer information: {killer}, and an information about the first suspect: {first_suspect}, describe a second suspect that is not the killer. Avoid nicknames.
+            Given a theme: {theme}, an information about the victim: {victim}, killer information: {killer}, and an information about the first suspect: {first_suspect}, describe the second suspect that is not the killer. Avoid nicknames.
             suspect:
             [/INST]
             """
