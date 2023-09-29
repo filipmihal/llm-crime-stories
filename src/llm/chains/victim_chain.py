@@ -62,7 +62,7 @@ class VictimChain:
             {
                 "scheme": json.dumps(self._json_schema),
                 "theme": theme,
-                "theme_example": self._one_shot_example["theme"],
-                "victim_example": json.dumps(self._one_shot_example["victim"]),
+                "theme_example": self._example["theme"],
+                "victim_example": json.dumps(self._example["victim"]),
             }
         )

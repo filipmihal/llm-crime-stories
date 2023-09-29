@@ -17,7 +17,7 @@ class KillerChain:
             "required": ["name", "age", "occupation", "alibi"],
         }
 
-        self._one_shot_example = {
+        self._example = {
             "killer": {
                 "name": "Gaius",
                 "age": 40,
@@ -59,11 +59,11 @@ class KillerChain:
     def create(self, theme, victim):
         return self._chain.invoke(
             {
-                "killer_example": json.dumps(self._one_shot_example["killer"]),
+                "killer_example": json.dumps(self._example["killer"]),
                 "scheme": json.dumps(self._json_schema),
                 "theme": theme,
-                "theme_example": self._one_shot_example["theme"],
+                "theme_example": self._example["theme"],
                 "victim": json.dumps(victim),
-                "victim_example": json.dumps(self._one_shot_example["victim"]),
+                "victim_example": json.dumps(self._example["victim"]),
             }
         )
