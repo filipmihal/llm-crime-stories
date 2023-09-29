@@ -64,13 +64,13 @@ class SuspectChain:
             <<SYS>>
 
             Given a theme: {theme_example}, an information about the victim: {victim_example}, and killer information: {killer_example}, describe a suspect that is not the killer. Avoid nicknames.
-            suspect:
+            Use the complete JSON schema. suspect:
             [/INST]
             {suspect_example}</s><s>
             
             [INST]
             Given a theme: {theme}, an information about the victim: {victim}, and an information about the killer: {killer}, describe a suspect that is not the killer. Avoid nicknames.
-            suspect:
+            Use the complete JSON schema. suspect:
             [/INST]
             """
         )
@@ -85,13 +85,13 @@ class SuspectChain:
             <<SYS>>
 
             Given a theme: {theme_example}, an information about the victim: {victim_example}, killer information: {killer_example}, and an information about the first suspect: {first_suspect_example}, describe the second suspect that is not the killer. Avoid nicknames.
-            suspect:
+            Use the complete JSON schema. suspect:
             [/INST]
             {second_suspect_example}</s><s>
             
             [INST]
             Given a theme: {theme}, an information about the victim: {victim}, killer information: {killer}, and an information about the first suspect: {first_suspect}, describe the second suspect that is not the killer. Avoid nicknames.
-            suspect:
+            Use the complete JSON schema. suspect:
             [/INST]
             """
         )
