@@ -55,11 +55,11 @@ class SuspectChain:
             },
         }
 
-        prompt = PromptTemplate.from_template(
+        self._prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
             
-            You are a crime storyteller. Always output answer as an array of JSON object of this scheme: {scheme}.
+            You are a crime storyteller. Always output answer as an array of JSON objects of this scheme: {scheme}.
             Avoid outputting anything else than the array of JSON objects.
             
             <<SYS>>
@@ -76,9 +76,21 @@ class SuspectChain:
             """
         )
 
-        self._chain = prompt | llm | SuspectJsonOutputParser()
+        self._chain = self._prompt | llm | SuspectJsonOutputParser()
 
     def create(self, theme, victim, killer):
+        print(
+            self._prompt.format(
+                killer=json.dumps(killer),
+                killer_example=json.dumps(self._one_shot_example["killer"]),
+                scheme=json.dumps(self._json_schema),
+                suspects_example=json.dumps(self._one_shot_example["suspects"]),
+                theme=theme,
+                theme_example=self._one_shot_example["theme"],
+                victim=json.dumps(victim),
+                victim_example=json.dumps(self._one_shot_example["victim"]),
+            )
+        )
         return self._chain.invoke(
             {
                 "killer": json.dumps(killer),
