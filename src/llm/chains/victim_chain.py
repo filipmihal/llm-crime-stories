@@ -59,8 +59,8 @@ class VictimChain:
     def create(self, theme):
         return self._chain.invoke(
             {
-                "one_shot_example": json.dump(self._one_shot_example),
-                "scheme": json.dump(self._json_schema),
+                "one_shot_example": json.dumps(self._one_shot_example),
+                "scheme": json.dumps(self._json_schema),
                 "theme": theme,
             }
         )
