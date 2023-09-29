@@ -18,7 +18,10 @@ class SuspectJsonOutputParser(BaseOutputParser):
         """
         print("suspects" + text)
         try:
-            return SuspectSchema().load(json.loads(text))
+            obj = json.loads(text)
+            obj = {k.strip():v.strip() for k, v in obj.items()}
+            
+            return SuspectSchema().load(obj)
         except JSONDecodeError as decode_err:
             print(decode_err)
         except ValidationError as err:

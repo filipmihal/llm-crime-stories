@@ -18,7 +18,10 @@ class KillerJsonOutputParser(BaseOutputParser):
         """
         print("killer" + text)
         try:
-            return KillerSchema().load(json.loads(text))
+            obj = json.loads(text)
+            obj = {k.strip():v.strip() for k, v in obj.items()}
+            
+            return KillerSchema().load(obj)
         except JSONDecodeError as decode_err:
             print(decode_err)
         except ValidationError as err:
