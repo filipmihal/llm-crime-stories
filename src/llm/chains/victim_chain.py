@@ -36,19 +36,17 @@ class VictimChain:
             """
             <s>[INST] <<SYS>>
             
-            You are a crime storyteller.
+            You are a crime storyteller. Always output answer as JSON using this {scheme}. Avoid outputting anything else than the JSON answer.
             
             <<SYS>>
 
             Given a theme: "Library of Alexandria, 340 BC, crazy librarian" describe a victim of the story.
-            Output the answer as JSON according this scheme: {scheme}.
             victim:
             [/INST]
             {one_shot_example}</s><s>
             
             [INST]
             Given a theme: {theme} describe a victim of the story.
-            Output the answer as JSON according this scheme: {scheme}.
             victim:
             [/INST]
             """
