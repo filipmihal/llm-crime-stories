@@ -36,7 +36,9 @@ class VictimChain:
             """
             <s>[INST] <<SYS>>
             
-            You are a crime storyteller. Always output answer as JSON using this {scheme}. Avoid outputting anything else than the JSON answer.
+            You are a crime storyteller. Always output answer as JSON using this {scheme}.
+            Avoid outputting anything else than the JSON answer.
+            Stay consistent with use of quotation marks, use double quotation marks.
             
             <<SYS>>
 
