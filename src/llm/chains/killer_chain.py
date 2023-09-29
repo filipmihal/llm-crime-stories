@@ -65,6 +65,6 @@ class KillerChain:
                 "scheme": json.dumps(self._json_schema),
                 "theme": theme,
                 "victim": json.dumps(victim),
-                "victim_example": json.dumpls(self._one_shot_example["victim"])
+                "victim_example": json.dumps(self._one_shot_example["victim"])
             }
         )
