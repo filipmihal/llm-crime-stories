@@ -102,7 +102,6 @@ class RoomsChain:
         )
 
     def create(self, theme, victim, suspects):
-        print(len(suspects))
         # generate description for the starting room, assumes square rooms layout
         middle_row, middle_col = (
             self._crime_scene_map.number_of_rooms,
