@@ -1,7 +1,7 @@
 from environment.game import Game
-from environment.generators.random_grid_generator import RandomGridGenerator
+from environment.generators.random_generator import RandomGridGenerator
 from environment.types import Position
-from llm.llm_story_generator import SchemaStory, SchemaVictim, SchemaSuspect, SchemaRoom
+from llm.story_generator import SchemaStory, SchemaVictim, SchemaSuspect, SchemaRoom
 import json
 
 # This seed is the exact match for dummy data

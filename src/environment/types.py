@@ -1,8 +1,13 @@
+from __future__ import annotations
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 
 class Position:
+    """
+    Wrapper around tuple that represents a position in 2D grid.
+    """
+
     def __init__(self, x: int, y: int):
         self._x = x
         self._y = y
@@ -15,7 +20,7 @@ class Position:
     def y(self) -> int:
         return self._y
 
-    def __add__(self, other) -> "Position":
+    def __add__(self, other) -> Position:
         if isinstance(other, int):
             return Position(self._x + other, self._y + other)
 
@@ -58,47 +63,80 @@ class Direction(Enum):
 
 class Room:
     """
-    Location class is a unit of space in the dungeon game. It serves as a descriptor for the world.
+    A unit of space in the crime game.
     """
 
     def __init__(self):
         self._description = None
+        self._name = None
         self._neighbours = {direction.value: None for direction in Direction}
 
     @property
-    def name(self) -> str:
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @description.setter
+    def description(self, new_description: str) -> None:
+        self._description = new_description
+
+    @property
+    def name(self) -> Optional[str]:
         return self._name
-    
+
     @name.setter
-    def name(self, new_name) -> None:
+    def name(self, new_name: str) -> None:
         self._name = new_name
 
     @property
-    def description(self) -> str:
-        return self._description
-
-    @description.setter
-    def description(self, new_description) -> None:
-        self._description = new_description
-
-    @property
-    def description(self) -> str:
-        return self._description
-
-    @description.setter
-    def description(self, new_description) -> None:
-        self._description = new_description
-
-    @property
-    def neighbours(self) -> Dict[Position, "Room"]:
+    def neighbours(self) -> Dict[Position, Room]:
         return self._neighbours
 
     @staticmethod
-    def connect(
-        location1: "Room", location2: "Room", direction: Position
-    ) -> None:
-        location1.neighbours[direction] = location2
-        location2.neighbours[Direction.opposite(direction)] = location1
+    def connect(start_room: Room, end_room: Room, direction: Position) -> None:
+        start_room.neighbours[direction] = end_room
+        end_room.neighbours[Direction.opposite(direction)] = start_room
 
 
 Grid = List[List[Optional[Room]]]
+
+
+class CrimeSceneMap:
+    """
+    Represents a map grid of rooms. Encompasses related information.
+    """
+
+    def __init__(self, number_of_rooms: int):
+        self._number_of_rooms = number_of_rooms
+        self._rooms = [
+            [None] * (2 * number_of_rooms + 1) for _ in range(2 * number_of_rooms + 1)
+        ]
+
+    @property
+    def number_of_rooms(self) -> int:
+        return self._number_of_rooms
+
+    @property
+    def rooms(self) -> List[List[Optional[Room]]]:
+        return self._rooms
+
+    @property
+    def size(self) -> Tuple[int, int]:
+        return 2 * self._number_of_rooms + 1, 2 * self._number_of_rooms + 1
+
+    @property
+    def start(self) -> Room:
+        return self._rooms[self._number_of_rooms][self._number_of_rooms]
+
+    @start.setter
+    def start(self, new_start) -> None:
+        self._rooms[self._number_of_rooms][self._number_of_rooms] = new_start
+
+    def add_room_to_position(self, row: int, col: int, room: Room) -> None:
+        self._rooms[row][col] = room
+
+    def get_neighbours(self, row: int, col: int) -> List[Tuple[int, int]]:
+        return [
+            (row + x, col + y)
+            for x, y in [(0, 1), (1, 0), (-1, 0), (0, -1)]
+            if 0 <= row + x < (2 * self._number_of_rooms + 1) and 0 <= col + y < (2 * self._number_of_rooms + 1) and self._rooms[row + x][col + y]
+        ]
