@@ -118,7 +118,7 @@ class RoomsChain:
         # generate rest of the rooms
         not_selected_suspects = deque(suspects)
         generated = set([(middle_row, middle_col)])
-        q = deque(self._get_neighbours(middle_row, middle_col))
+        q = deque(self._crime_scene_map.get_neighbours(middle_row, middle_col))
         while q:
             current_room = q.pop()
             if current_room in generated:
@@ -141,7 +141,7 @@ class RoomsChain:
 
             rooms_data.append(current_room_story)
             generated.add((row, col))
-            q.extend(self._get_neighbours(row, col))
+            q.extend(self._crime_scene_map.get_neighbours(row, col))
 
         return rooms_data, suspects_positions
 
