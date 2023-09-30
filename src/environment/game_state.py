@@ -41,5 +41,5 @@ class GameState:
             self._suspects[Position(position["row"], position["col"])] = suspect
         
         for room in story["rooms"]:
-            self._crime_scene_map.rooms[room["row"]][room["col"]].name = room.name
-            self._crime_scene_map.rooms[room["row"]][room["col"]].description = room.description
+            self._crime_scene_map.rooms[room["row"]][room["col"]].name = room["name"]
+            self._crime_scene_map.rooms[room["row"]][room["col"]].description = room["description"]
