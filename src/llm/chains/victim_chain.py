@@ -35,7 +35,7 @@ class VictimChain:
             }
         }
 
-        self._prompt = PromptTemplate.from_template(
+        prompt = PromptTemplate.from_template(
             """
             <s>[INST] <<SYS>>
             
@@ -55,11 +55,9 @@ class VictimChain:
             """
         )
 
-        self._chain = self._prompt | llm | VictimJsonOutputParser()
+        self._chain = prompt | llm | VictimJsonOutputParser()
 
     def create(self, theme):
-        print(self._prompt)
-        print(self._prompt.format(scheme=json.dumps(self._json_schema), theme=theme, theme_example=self._example["theme"], victim_example=json.dumps(self._example["victim"])))
         return self._chain.invoke(
             {
                 "scheme": json.dumps(self._json_schema),
