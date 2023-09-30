@@ -13,7 +13,7 @@ class GridVisualizer:
     @staticmethod
     def get_bounds(crime_scene_map: CrimeSceneMap) -> Tuple[int, int, int, int]:
         top, left, right, bottom = float("inf"), float("inf"), -1, -1
-        rows = columns = crime_scene_map.size
+        rows, columns = crime_scene_map.size
 
         for i, j in product(range(rows), range(columns)):
             if crime_scene_map.rooms[i][j] is not None:
