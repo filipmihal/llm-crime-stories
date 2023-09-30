@@ -34,12 +34,13 @@ class GameState:
         return self._victim
 
     def _import_story(self, story: StorySchema) -> None:
-        self._victim = story.victim
+        print(story)
+        self._victim = story["victim"]
         
         self._suspects = {}
-        for suspect, position in zip(story.suspects, story.suspects_positions):
+        for suspect, position in zip(story["suspects"] + [story["killer"]], story["suspects_positions"]):
             self._suspects[Position(position.row, position.col)] = suspect
         
-        for room in story.rooms:
+        for room in story["rooms"]:
             self._crime_scene_map.rooms[room.row][room.col].name = room.name
             self._crime_scene_map.rooms[room.row][room.col].description = room.description
