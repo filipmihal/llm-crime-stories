@@ -138,5 +138,5 @@ class CrimeSceneMap:
         return [
             (row + x, col + y)
             for x, y in [(0, 1), (1, 0), (-1, 0), (0, -1)]
-            if 0 <= row + x < self._rows and 0 <= col + y < self._columns and self._rooms[row + x][col + y]
+            if 0 <= row + x < (2 * self._number_of_rooms + 1) and 0 <= col + y < (2 * self._number_of_rooms + 1) and self._rooms[row + x][col + y]
         ]
