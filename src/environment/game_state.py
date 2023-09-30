@@ -14,7 +14,7 @@ class GameState:
 
     @property
     def crime_scene_map(self) -> CrimeSceneMap:
-        return self.crime_scene_map
+        return self._crime_scene_map
 
     @property
     def current_room(self) -> Room:
