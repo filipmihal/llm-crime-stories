@@ -13,17 +13,17 @@ from llm.marshmallow.schemas.story import StorySchema
 class StoryGenerator:
     def __init__(self, crime_scene_map: CrimeSceneMap, llm_pipeline) -> None:
         self._crime_scene_map = crime_scene_map
-        self._llm = HuggingFacePipeline(pipeline=llm_pipeline)
+        self._llm_pipeline = llm_pipeline
 
     def create_new_story(self, theme: str, dummy: bool = False) -> StorySchema:
         if dummy:
             with open("./llm-dungeon-adventures/data/dummy.json", "r") as f:
                 return json.load(f)
 
-        victim = VictimChain(self._llm).create(theme)
-        killer = KillerChain(self._llm).create(theme, victim)
-        suspects = SuspectChain(self._llm).create(theme, victim)
-        rooms, suspects_positions = RoomsChain(self._llm, self._crime_scene_map).create(
+        victim = VictimChain(self._llm_pipeline).create(theme)
+        killer = KillerChain(self._llm_pipeline).create(theme, victim)
+        suspects = SuspectChain(self._llm_pipeline).create(theme, victim)
+        rooms, suspects_positions = RoomsChain(self._llm_pipeline, self._crime_scene_map).create(
             theme, victim, suspects + [killer]
         )
 
