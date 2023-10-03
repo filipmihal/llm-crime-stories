@@ -2,6 +2,7 @@ from typing import Optional, List
 from environment.types import Direction
 from environment.player_action import PlayerAction
 from environment.player_action_move import PlayerActionMove
+from environment.player_action_invalid import PlayerActionInvalid
 
 class PlayerActionParser():
     @staticmethod
@@ -20,7 +21,7 @@ class PlayerActionParser():
             
             if direction is not None:
                 return PlayerActionMove(direction)
-        return None
+        return PlayerActionInvalid()
     
     @staticmethod
     def parse_raw(text: str) -> List[str]:

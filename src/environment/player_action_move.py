@@ -13,3 +13,4 @@ class PlayerActionMove(PlayerAction):
             return
 
         game_state.current_room = game_state.current_room.neighbours[self._direction]
+        print(game_state.current_room.description)

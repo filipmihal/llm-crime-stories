@@ -15,9 +15,11 @@ class Game:
         if visualize:
             GridVisualizer.visualize(self._game_state)
 
-    def play(self, instruction_text: str) -> None:       
+    def play(self, instruction_text: str = None) -> None:
         instructions = PlayerActionParser.parse_raw(instruction_text)
-        for instruction in instructions:
+        # for instruction in instructions:
+        while True:    
+            instruction = input("Enter your instruction: ")   
             action = PlayerActionParser.parse(instruction)
             if action is not None:
                 action.act(self._game_state)
@@ -27,3 +29,4 @@ class Game:
             if self._visualize:
                 print("------------------")
                 GridVisualizer.visualize(self._game_state)
+        
