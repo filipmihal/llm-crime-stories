@@ -1,5 +1,5 @@
 from environment.game_state import GameState
-from environment.player_action_parser import PlayerActionParser
+from environment.player.action_parser import ActionParser
 from environment.grid_visualizer import GridVisualizer
 
 
@@ -19,7 +19,7 @@ class Game:
         print(self._game_state.current_room.description)
         while True:    
             instruction = input("Enter your instruction: ")   
-            action = PlayerActionParser.parse(instruction)
+            action = ActionParser.parse(instruction)
             result = action.act(self._game_state)
             if result.terminal:
                 if result.win:

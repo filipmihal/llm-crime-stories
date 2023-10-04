@@ -4,7 +4,7 @@ from environment.player.action_result import ActionResult
 from typing import List
 from random import shuffle
 
-class PlayerActionAccuse(PlayerAction):
+class ActionAccuse(PlayerAction):
 
     def get_suspects(self, game_state: GameState) -> List[str]:
         suspects = [suspect['name'] for suspect in game_state.suspects.values()]

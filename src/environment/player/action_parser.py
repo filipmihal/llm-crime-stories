@@ -1,11 +1,11 @@
 from typing import Optional, List
 from environment.types import Direction
 from environment.player_action import PlayerAction
-from environment.player_action_move import PlayerActionMove
-from environment.player_action_invalid import PlayerActionInvalid
-from environment.player_action_accuse import PlayerActionAccuse
+from environment.player.action_move import ActionMove
+from environment.player.action_invalid import ActionInvalid
+from environment.player.action_accuse import ActionAccuse
 
-class PlayerActionParser():
+class ActionParser():
     @staticmethod
     def parse(action: str) -> Optional[PlayerAction]:
         if action.startswith("go"):
@@ -21,11 +21,11 @@ class PlayerActionParser():
                 direction = Direction.WEST.value
             
             if direction is not None:
-                return PlayerActionMove(direction)
+                return ActionMove(direction)
         if action == "accuse":
-            return PlayerActionAccuse()
+            return ActionAccuse()
     
-        return PlayerActionInvalid()
+        return ActionInvalid()
     
     @staticmethod
     def parse_raw(text: str) -> List[str]:

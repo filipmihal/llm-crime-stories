@@ -3,7 +3,7 @@ from environment.game_state import GameState
 from environment.types import Position
 from environment.player.action_result import ActionResult
 
-class PlayerActionMove(PlayerAction):
+class ActionMove(PlayerAction):
     def __init__(self, direction: Position):
         self._direction = direction
 
