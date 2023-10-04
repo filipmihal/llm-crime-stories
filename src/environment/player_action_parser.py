@@ -3,6 +3,7 @@ from environment.types import Direction
 from environment.player_action import PlayerAction
 from environment.player_action_move import PlayerActionMove
 from environment.player_action_invalid import PlayerActionInvalid
+from environment.player_action_accuse import PlayerActionAccuse
 
 class PlayerActionParser():
     @staticmethod
@@ -21,6 +22,9 @@ class PlayerActionParser():
             
             if direction is not None:
                 return PlayerActionMove(direction)
+        if action == "accuse":
+            return PlayerActionAccuse()
+    
         return PlayerActionInvalid()
     
     @staticmethod

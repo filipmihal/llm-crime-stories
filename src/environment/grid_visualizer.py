@@ -29,6 +29,7 @@ class GridVisualizer:
         start_location = game_state.current_room
         top, left, right, bottom = GridVisualizer.get_bounds(game_state.crime_scene_map)
 
+        print("------------------")
         for i in range(top, bottom + 1):
             for j in range(left, right + 1):
                 if game_state.crime_scene_map.rooms[i][j] is None:
@@ -38,3 +39,5 @@ class GridVisualizer:
                 else:
                     print("O", end="")
             print()
+        print("------------------")
+
