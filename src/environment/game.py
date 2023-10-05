@@ -22,11 +22,7 @@ class Game:
             action = ActionParser.parse(instruction)
             result = action.act(self._game_state)
             if result.terminal:
-                if result.win:
-                    print("You win!")
-                 
-                else:
-                    print("You lose!")
+                print("You win!" if result.win else "You lose!")
                 return
             if self._visualize:
                 GridVisualizer.visualize(self._game_state)

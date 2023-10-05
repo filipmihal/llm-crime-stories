@@ -10,19 +10,10 @@ class ActionParser():
     def parse(action: str) -> Optional[PlayerAction]:
         if action.startswith("go"):
             direction_text = action.split(" ")[1]
-            direction = None
-            if direction_text == "north":
-                direction = Direction.NORTH.value
-            elif direction_text == "east":
-                direction = Direction.EAST.value
-            elif direction_text == "south":
-                direction = Direction.SOUTH.value
-            elif direction_text == "west":
-                direction = Direction.WEST.value
-            
-            if direction is not None:
-                return ActionMove(direction)
-        if action == "accuse":
+            for dir_enum in Direction:
+                if dir_enum.name == direction_text.upper():
+                    return ActionMove(dir_enum.value)
+        elif action == "accuse":
             return ActionAccuse()
     
         return ActionInvalid()

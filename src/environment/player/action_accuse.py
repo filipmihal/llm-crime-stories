@@ -11,12 +11,10 @@ class ActionAccuse(PlayerAction):
         shuffle(suspects)
         return suspects
     
-    def get_killer(self, game_state: GameState) -> str:
-        return game_state.killer['name']
 
     def act(self, game_state: GameState) -> ActionResult:
         suspects = self.get_suspects(game_state)
-        killer = self.get_killer(game_state)
+        killer = game_state.killer['name']
         killer_number = -1
         print("Who do you think is the killer?")
         for i, suspect in enumerate(suspects):
