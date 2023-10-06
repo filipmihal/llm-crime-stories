@@ -6,3 +6,5 @@
 **/.pytest_cache
 
 **/.env
+
+data/weaviate_data
