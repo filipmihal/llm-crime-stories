@@ -6,14 +6,8 @@ from random import shuffle
 
 class ActionAccuse(PlayerAction):
 
-    def get_suspects(self, game_state: GameState) -> List[str]:
-        suspects = [suspect['name'] for suspect in game_state.suspects.values()]
-        shuffle(suspects)
-        return suspects
-    
-
     def act(self, game_state: GameState) -> ActionResult:
-        suspects = self.get_suspects(game_state)
+        suspects = self._get_suspects(game_state)
         killer = game_state.killer['name']
         killer_number = -1
         print("Who do you think is the killer?")
@@ -26,3 +20,8 @@ class ActionAccuse(PlayerAction):
             return ActionResult(True,  True)
         else:
             return ActionResult(True, False)
+
+    def _get_suspects(self, game_state: GameState) -> List[str]:
+        suspects = [suspect['name'] for suspect in game_state.suspects.values()]
+        shuffle(suspects)
+        return suspects
