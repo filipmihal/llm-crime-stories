@@ -1,5 +1,5 @@
 from environment.game_state import GameState
-from environment.player_action_parser import PlayerActionParser
+from environment.player.action_parser import ActionParser
 from environment.grid_visualizer import GridVisualizer
 
 
@@ -15,15 +15,16 @@ class Game:
         if visualize:
             GridVisualizer.visualize(self._game_state)
 
-    def play(self, instruction_text: str) -> None:       
-        instructions = PlayerActionParser.parse_raw(instruction_text)
-        for instruction in instructions:
-            action = PlayerActionParser.parse(instruction)
-            if action is not None:
-                action.act(self._game_state)
-            else:
-                # TODO: maybe write something better here?
-                print("Invalid instruction: " + instruction)
+    def play(self) -> None:
+        print(self._game_state.current_room.description)
+        while True:    
+            instruction = input("Enter your instruction: ")   
+            action = ActionParser.parse(instruction)
+            result = action.act(self._game_state)
+            if result.terminal:
+                print("You win!" if result.win else "You lose!")
+                return
             if self._visualize:
-                print("------------------")
                 GridVisualizer.visualize(self._game_state)
+
+        

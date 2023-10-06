@@ -28,6 +28,10 @@ class GameState:
     @property
     def suspects(self) -> Dict[Position, SuspectSchema]:
         return self._suspects
+    
+    @property
+    def killer(self) -> SuspectSchema:
+        return self._killer
 
     @property
     def victim(self) -> VictimSchema:
@@ -37,6 +41,7 @@ class GameState:
         self._victim = story["victim"]
         
         self._suspects = {}
+        self._killer = story["killer"]
         for suspect, position in zip(story["suspects"] + [story["killer"]], story["suspects_positions"]):
             self._suspects[Position(position["row"], position["col"])] = suspect
         
